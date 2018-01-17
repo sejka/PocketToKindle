@@ -1,0 +1,64 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{19DD45B5-B849-49E7-89D6-16C89B9B96C7}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketSharpNetStandard", "PocketSharpNetStandard\PocketSharpNetStandard.csproj", "{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketSharp.TestsCore", "PocketSharp.TestsCore\PocketSharp.TestsCore.csproj", "{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Debug|ARM.Build.0 = Debug|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Debug|x64.Build.0 = Debug|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Debug|x86.Build.0 = Debug|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Release|ARM.ActiveCfg = Release|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Release|ARM.Build.0 = Release|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Release|x64.ActiveCfg = Release|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Release|x64.Build.0 = Release|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Release|x86.ActiveCfg = Release|Any CPU
+		{6ED3524F-78D7-49AB-9AEE-29FFCCABCA18}.Release|x86.Build.0 = Release|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Debug|x64.Build.0 = Debug|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Debug|x86.Build.0 = Debug|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Release|ARM.Build.0 = Release|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Release|x64.ActiveCfg = Release|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Release|x64.Build.0 = Release|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Release|x86.ActiveCfg = Release|Any CPU
+		{C98714E8-CC72-4B80-A0AC-5612BAFE0E5B}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

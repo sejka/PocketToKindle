@@ -1,0 +1,56 @@
+﻿using PocketSharp;
+using PocketSharp.Models;
+using PocketToKindle.Parsers;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Core
+{
+    public interface ISender
+    {
+        Task<ICollection<string>> SendAsync(User user);
+    }
+
+    public class Sender : ISender
+    {
+        private IEmailSender _emailSender;
+        private IParser _parser;
+        private IPocketClient _pocketClient;
+
+        public Sender(IPocketClient pocketClient, IParser parser, IEmailSender emailSender)
+        {
+            _pocketClient = pocketClient;
+            _parser = parser;
+            _emailSender = emailSender;
+        }
+
+        public async Task<ICollection<string>> SendAsync(User user)
+        {
+            var previouslySentArticles = user.ArticleUrls;
+
+            var allArticles = await GetArticlesSince(user);
+            var allArticleUrls = allArticles.Select(article => article.Uri.ToString());
+            var newArticles = allArticleUrls.Except(previouslySentArticles);
+            var resultArticles = new List<string>();
+
+            foreach (var articleUrl in newArticles)
+            {
+                var parsedArticle = await _parser.ParseAsync(articleUrl);
+                await _emailSender.SendEmailAsync(user.KindleEmail, parsedArticle.Title, parsedArticle.Content);
+
+                resultArticles.Add(articleUrl);
+            }
+
+            return resultArticles;
+        }
+
+        private async Task<IEnumerable<PocketItem>> GetArticlesSince(User user)
+        {
+            _pocketClient.AccessCode = user.AccessCode;
+            var articles = await _pocketClient.Get(since: user.LastProcessingDate);
+
+            return articles;
+        }
+    }
+}

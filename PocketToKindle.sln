@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{862FC2EE-7657-40A1-AD7E-2D4E9FC09A3B}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketSharpNetStandard", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{7F4D52C3-7AF6-4B0A-86EC-37ECF442DD2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Function", "Function\Function.csproj", "{C0B57ECA-C54A-442E-90B7-6AEB042D7C5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Function", "Function\Function.csproj", "{DD5FCC95-1285-4E46-92C3-AF28D6DBA414}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{7F4D52C3-7AF6-4B0A-86EC-37ECF442DD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F4D52C3-7AF6-4B0A-86EC-37ECF442DD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F4D52C3-7AF6-4B0A-86EC-37ECF442DD2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0B57ECA-C54A-442E-90B7-6AEB042D7C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0B57ECA-C54A-442E-90B7-6AEB042D7C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0B57ECA-C54A-442E-90B7-6AEB042D7C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0B57ECA-C54A-442E-90B7-6AEB042D7C5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD5FCC95-1285-4E46-92C3-AF28D6DBA414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD5FCC95-1285-4E46-92C3-AF28D6DBA414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD5FCC95-1285-4E46-92C3-AF28D6DBA414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD5FCC95-1285-4E46-92C3-AF28D6DBA414}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

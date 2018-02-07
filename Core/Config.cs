@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Core
 {
@@ -22,11 +23,11 @@ namespace Core
     {
         private IConfigValuesProvider configValuesProvider { get; set; } = new EnvironmentValuesProvider();
 
-        public ConfigBuilder()
+        public ConfigBuilder(string functionAppDirectory)
         {
             if (System.Environment.GetEnvironmentVariable("P2K_IS_PRODUCTION") != "true")
             {
-                configValuesProvider = new JsonFileValuesProvider();
+                configValuesProvider = new JsonFileValuesProvider(functionAppDirectory);
             }
         }
 
@@ -39,7 +40,7 @@ namespace Core
                 PocketConsumerKey = configValuesProvider.Get("POCKET_CONSUMER_KEY"),
                 EmailSenderOptions = new EmailSenderOptions
                 {
-                    Host = configValuesProvider.Get("EMAIL:HOSTNAME"),
+                    Host = configValuesProvider.Get("EMAIL:HOST"),
                     Login = configValuesProvider.Get("EMAIL:LOGIN"),
                     Password = configValuesProvider.Get("EMAIL:PASSWORD"),
                     Port = configValuesProvider.Get("EMAIL:PORT")
@@ -63,9 +64,14 @@ namespace Core
 
     internal class JsonFileValuesProvider : IConfigValuesProvider
     {
-        private IConfigurationRoot _config = new ConfigurationBuilder()
-                                                .AddJsonFile("./config.json")
-                                                .Build();
+        private IConfigurationRoot _config;
+
+        public JsonFileValuesProvider(string functionAppDirectory)
+        {
+            _config = new ConfigurationBuilder()
+                .AddJsonFile(Path.Combine(functionAppDirectory, "config.json"))
+                .Build();
+        }
 
         public string Get(string valueName)
         {

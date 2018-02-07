@@ -12,11 +12,20 @@ namespace Core
     //todo should i test this?
     public class EmailSender : IEmailSender
     {
+        private EmailSenderOptions _options;
         private SmtpClient _smtpClient;
 
-        public EmailSender(SmtpClient smtpClient)
+        public EmailSender(EmailSenderOptions options)
         {
-            _smtpClient = smtpClient;
+            _options = options;
+            _smtpClient = new SmtpClient();
+        }
+
+        public void Connect()
+        {
+            _smtpClient.Connect(_options.Host);
+            _smtpClient.AuthenticationMechanisms.Remove("XOAUTH2");
+            _smtpClient.AuthenticateAsync(_options.Login, _options.Password);
         }
 
         public async Task SendEmailAsync(string email, string title, string content)
@@ -30,8 +39,15 @@ namespace Core
                 Text = content
             };
 
-            //todo i think it'll be problematic when sharing smtpClient :P
-            await _smtpClient.SendAsync(message);
+            try
+            {
+                Connect();
+                await _smtpClient.SendAsync(message);
+            }
+            finally
+            {
+                await _smtpClient.DisconnectAsync(true);
+            }
         }
     }
 }

@@ -12,11 +12,13 @@ namespace Function
 {
     public static class ProcessAllUsers
     {
-        private static Config _config = new ConfigBuilder().Build();
+        private static Config _config;
 
         [FunctionName("ProcessAllUsers")]
-        public static void Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, TraceWriter log)
+        public static void Run([TimerTrigger("0 */1 * * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context)
         {
+            _config = new ConfigBuilder(context.FunctionAppDirectory).Build();
+
             log.Info($"C# Timer trigger function executed at: {DateTime.Now}");
 
             UserService userService = BuildUserService();
@@ -33,10 +35,7 @@ namespace Function
 
         private static EmailSender BuildEmailSender(EmailSenderOptions emailSenderOptions)
         {
-            var smtpClient = new SmtpClient();
-            smtpClient.Connect(emailSenderOptions.Host, Convert.ToInt32(emailSenderOptions.Port), true);
-            smtpClient.Authenticate(emailSenderOptions.Login, emailSenderOptions.Password);
-            var emailSender = new EmailSender(smtpClient);
+            var emailSender = new EmailSender(emailSenderOptions);
             return emailSender;
         }
 

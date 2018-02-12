@@ -10,5 +10,10 @@ namespace Core
         public ICollection<string> ArticleUrls { get; set; }
         public string KindleEmail { get; set; }
         public DateTime LastProcessingDate { get; set; }
+        public string PocketUsername { get; set; }
+
+        public User()
+        {
+        }
     }
 }

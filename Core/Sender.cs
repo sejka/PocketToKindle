@@ -27,9 +27,15 @@ namespace Core
 
         public async Task<ICollection<string>> SendAsync(User user)
         {
-            var previouslySentArticles = user.ArticleUrls;
+            var previouslySentArticles = user.ArticleUrls ?? new List<string>();
 
-            var allArticles = await GetArticlesSince(user);
+            var allArticles = (await GetArticlesSince(user)).Where(x => !string.IsNullOrEmpty(x.Uri.ToString()));
+
+            if (!allArticles.Any())
+            {
+                return new List<string>();
+            }
+
             var allArticleUrls = allArticles.Select(article => article.Uri.ToString());
             var newArticles = allArticleUrls.Except(previouslySentArticles);
             var resultArticles = new List<string>();

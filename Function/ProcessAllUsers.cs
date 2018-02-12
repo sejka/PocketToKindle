@@ -21,7 +21,7 @@ namespace Function
 
             log.Info($"C# Timer trigger function executed at: {DateTime.Now}");
 
-            UserService userService = BuildUserService();
+            UserService userService = UserService.BuildUserService(_config.StorageConnectionString);
             Sender sender = BuildSender(_config.PocketConsumerKey, _config.MercuryApiKey, _config.EmailSenderOptions);
 
             UserProcessor processor = new UserProcessor(userService, sender);
@@ -46,15 +46,6 @@ namespace Function
             EmailSender emailSender = BuildEmailSender(_config.EmailSenderOptions);
             var sender = new Sender(pocketClient, mercuryParser, emailSender);
             return sender;
-        }
-
-        private static UserService BuildUserService()
-        {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_config.StorageConnectionString);
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            CloudTable userCloudTable = tableClient.GetTableReference("users");
-            var userService = new UserService(userCloudTable);
-            return userService;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Core
         public string StorageConnectionString { get; set; }
         public string MercuryApiKey { get; set; }
         public string PocketConsumerKey { get; set; }
+        public string PocketRedirectUri { get; set; }
         public EmailSenderOptions EmailSenderOptions { get; set; }
     }
 
@@ -38,6 +39,7 @@ namespace Core
                 MercuryApiKey = configValuesProvider.Get("MERCURY_API_KEY"),
                 StorageConnectionString = configValuesProvider.Get("STORAGE_CONNECTION_STRING"),
                 PocketConsumerKey = configValuesProvider.Get("POCKET_CONSUMER_KEY"),
+                PocketRedirectUri = configValuesProvider.Get("POCKET_REDIRECT_URI"),
                 EmailSenderOptions = new EmailSenderOptions
                 {
                     Host = configValuesProvider.Get("EMAIL:HOST"),

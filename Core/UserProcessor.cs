@@ -51,9 +51,20 @@ namespace Core
 
         private async Task<IList<string>> ProcessBatchAsync(IEnumerable<User> users)
         {
-            var senderTasks = users.Select(x => _sender.SendAsync(x));
+            var senderTasks = users.Select(x => ProcessUserAsync(x));
             var senderResults = await Task.WhenAll(senderTasks);
             return AggregateResults(senderResults);
+        }
+
+        private async Task<IList<string>> ProcessUserAsync(User user)
+        {
+            var senderTask = _sender.SendAsync(user);
+            var userUpdaterTask = _userService.UpdateLastProcessingDateAsync(user);
+
+            var sentUrls = await senderTask;
+            await userUpdaterTask;
+
+            return sentUrls.ToList();
         }
     }
 }

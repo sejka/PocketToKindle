@@ -1,21 +1,17 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
+using System;
 using System.Threading.Tasks;
 
-namespace Core
+namespace Core.EmailSenders
 {
-    public interface IEmailSender
-    {
-        Task SendEmailAsync(string email, string title, string content);
-    }
-
     //todo should i test this?
-    public class EmailSender : IEmailSender
+    public class SmtpSender : IEmailSender
     {
-        private EmailSenderOptions _options;
+        private SmtpSenderOptions _options;
         private SmtpClient _smtpClient;
 
-        public EmailSender(EmailSenderOptions options)
+        public SmtpSender(SmtpSenderOptions options)
         {
             _options = options;
             _smtpClient = new SmtpClient();
@@ -23,7 +19,7 @@ namespace Core
 
         public void Connect()
         {
-            _smtpClient.Connect(_options.Host);
+            _smtpClient.Connect(_options.Host, _options.Port, MailKit.Security.SecureSocketOptions.StartTlsWhenAvailable);
             _smtpClient.AuthenticationMechanisms.Remove("XOAUTH2");
             _smtpClient.AuthenticateAsync(_options.Login, _options.Password);
         }
@@ -43,6 +39,11 @@ namespace Core
             {
                 Connect();
                 await _smtpClient.SendAsync(message);
+                Console.WriteLine($"Successfully sent email: {message.Subject}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Sending message failed: {ex.Message}");
             }
             finally
             {

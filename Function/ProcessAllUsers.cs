@@ -1,9 +1,7 @@
 using Core;
-using MailKit.Net.Smtp;
+using Core.EmailSenders;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
 using PocketSharp;
 using PocketToKindle.Parsers;
 using System;
@@ -15,14 +13,14 @@ namespace Function
         private static Config _config;
 
         [FunctionName("ProcessAllUsers")]
-        public static void Run([TimerTrigger("0 */1 * * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context)
+        public static void Run([TimerTrigger("0 */15 * * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context)
         {
             _config = new ConfigBuilder(context.FunctionAppDirectory).Build();
 
             log.Info($"C# Timer trigger function executed at: {DateTime.Now}");
 
             UserService userService = UserService.BuildUserService(_config.StorageConnectionString);
-            Sender sender = BuildSender(_config.PocketConsumerKey, _config.MercuryApiKey, _config.EmailSenderOptions);
+            Sender sender = BuildSender(_config.PocketConsumerKey, _config.MercuryApiKey, _config.MailGunSenderOptions, _config.EmailSenderOptions);
 
             UserProcessor processor = new UserProcessor(userService, sender);
 
@@ -33,19 +31,44 @@ namespace Function
             return;
         }
 
-        private static EmailSender BuildEmailSender(EmailSenderOptions emailSenderOptions)
+        private static IEmailSender BuildSmtpEmailSender(SmtpSenderOptions emailSenderOptions)
         {
-            var emailSender = new EmailSender(emailSenderOptions);
+            var emailSender = new SmtpSender(emailSenderOptions);
             return emailSender;
         }
 
-        private static Sender BuildSender(string pocketConsumerKey, string mercuryApiKey, EmailSenderOptions emailSenderOptions)
+        private static IEmailSender BuildMailgunEmailSender(MailgunSenderOptions mailgunSenderOptions)
+        {
+            var mailgunSender = new MailgunSender(mailgunSenderOptions.ApiKey, mailgunSenderOptions.HostEmail);
+            return mailgunSender;
+        }
+
+        //todo too many parameters :/ smtp and mailgun options should be resolved elsewhere
+        private static Sender BuildSender(string pocketConsumerKey,
+            string mercuryApiKey,
+            MailgunSenderOptions mailgunSenderOptions,
+            SmtpSenderOptions smtpSenderOptions)
         {
             var pocketClient = new PocketClient(pocketConsumerKey);
             var mercuryParser = new MercuryParser(mercuryApiKey);
-            EmailSender emailSender = BuildEmailSender(_config.EmailSenderOptions);
+            var emailSender = BuildEmailSender(mailgunSenderOptions, smtpSenderOptions);
             var sender = new Sender(pocketClient, mercuryParser, emailSender);
             return sender;
+        }
+
+        private static IEmailSender BuildEmailSender(MailgunSenderOptions mailgunSenderOptions, SmtpSenderOptions smtpSenderOptions)
+        {
+            IEmailSender emailSender;
+            if (string.IsNullOrEmpty(mailgunSenderOptions.ApiKey))
+            {
+                emailSender = BuildSmtpEmailSender(_config.EmailSenderOptions);
+
+            } else
+            {
+                emailSender = BuildMailgunEmailSender(mailgunSenderOptions);
+            }
+
+            return emailSender;
         }
     }
 }

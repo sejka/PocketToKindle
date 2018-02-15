@@ -52,8 +52,7 @@ namespace RegisterCLI
                 AccessCode = accessToken,
                 PocketUsername = username,
                 KindleEmail = kindleEmail,
-                LastProcessingDate = DateTime.UtcNow,
-                ArticleUrls = new List<string>()
+                LastProcessingDate = DateTime.UtcNow
             };
 
             userService.AddUser(user);

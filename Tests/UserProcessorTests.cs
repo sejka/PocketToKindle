@@ -11,17 +11,14 @@ namespace Tests
             {
                 new User()
                 {
-                    ArticleUrls = new string[] { "someurl" },
                     KindleEmail = "somemail@email.com"
                 },
                 new User()
                 {
-                    ArticleUrls = new string[] { "someurl2" },
                     KindleEmail = "somemail2@email.com"
                 },
                 new User()
                 {
-                    ArticleUrls = new string[] { "someurl3" },
                     KindleEmail = "somemail3@email.com"
                 }
             };
@@ -30,7 +27,6 @@ namespace Tests
             {
                 new User()
                 {
-                    ArticleUrls = new string[] { "someurl2" },
                     KindleEmail = "somemail2@email.com"
                 }
             };

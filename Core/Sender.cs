@@ -1,4 +1,5 @@
-﻿using PocketSharp;
+﻿using Core.EmailSenders;
+using PocketSharp;
 using PocketSharp.Models;
 using PocketToKindle.Parsers;
 using System.Collections.Generic;
@@ -27,9 +28,7 @@ namespace Core
 
         public async Task<ICollection<string>> SendAsync(User user)
         {
-            var previouslySentArticles = user.ArticleUrls ?? new List<string>();
-
-            var allArticles = (await GetArticlesSince(user)).Where(x => !string.IsNullOrEmpty(x.Uri.ToString()));
+            var allArticles = (await GetArticlesSince(user)).Where(x => x.Uri != null);
 
             if (!allArticles.Any())
             {
@@ -37,10 +36,9 @@ namespace Core
             }
 
             var allArticleUrls = allArticles.Select(article => article.Uri.ToString());
-            var newArticles = allArticleUrls.Except(previouslySentArticles);
             var resultArticles = new List<string>();
 
-            foreach (var articleUrl in newArticles)
+            foreach (var articleUrl in allArticleUrls)
             {
                 var parsedArticle = await _parser.ParseAsync(articleUrl);
                 await _emailSender.SendEmailAsync(user.KindleEmail, parsedArticle.Title, parsedArticle.Content);

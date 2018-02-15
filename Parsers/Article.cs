@@ -6,7 +6,7 @@ namespace PocketToKindle.Models
     {
         public string Title { get; set; }
         public string Content { get; set; }
-        public DateTime Date_published { get; set; }
+        public DateTime? Date_published { get; set; }
         public string Lead_image_url { get; set; }
         public string dek { get; set; }
         public string Url { get; set; }

@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="RestSharp" Version="106.2.1" />
     <PackageReference Include="WindowsAzure.Storage" Version="8.6.0" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.IO;
 
 namespace Core
@@ -9,15 +10,22 @@ namespace Core
         public string MercuryApiKey { get; set; }
         public string PocketConsumerKey { get; set; }
         public string PocketRedirectUri { get; set; }
-        public EmailSenderOptions EmailSenderOptions { get; set; }
+        public SmtpSenderOptions EmailSenderOptions { get; set; }
+        public MailgunSenderOptions MailGunSenderOptions { get; set; }
     }
 
-    public class EmailSenderOptions
+    public class SmtpSenderOptions
     {
         public string Host { get; internal set; }
-        public string Port { get; internal set; }
+        public int Port { get; internal set; }
         public string Login { get; internal set; }
         public string Password { get; internal set; }
+    }
+
+    public class MailgunSenderOptions
+    {
+        public string ApiKey { get; internal set; }
+        public string HostEmail { get; internal set; }
     }
 
     public class ConfigBuilder
@@ -26,7 +34,7 @@ namespace Core
 
         public ConfigBuilder(string functionAppDirectory)
         {
-            if (System.Environment.GetEnvironmentVariable("P2K_IS_PRODUCTION") != "true")
+            if (Environment.GetEnvironmentVariable("P2K_IS_PRODUCTION") != "true")
             {
                 configValuesProvider = new JsonFileValuesProvider(functionAppDirectory);
             }
@@ -40,12 +48,17 @@ namespace Core
                 StorageConnectionString = configValuesProvider.Get("STORAGE_CONNECTION_STRING"),
                 PocketConsumerKey = configValuesProvider.Get("POCKET_CONSUMER_KEY"),
                 PocketRedirectUri = configValuesProvider.Get("POCKET_REDIRECT_URI"),
-                EmailSenderOptions = new EmailSenderOptions
+                EmailSenderOptions = new SmtpSenderOptions
                 {
                     Host = configValuesProvider.Get("EMAIL:HOST"),
                     Login = configValuesProvider.Get("EMAIL:LOGIN"),
                     Password = configValuesProvider.Get("EMAIL:PASSWORD"),
-                    Port = configValuesProvider.Get("EMAIL:PORT")
+                    Port = Convert.ToInt32(configValuesProvider.Get("EMAIL:PORT"))
+                },
+                MailGunSenderOptions = new MailgunSenderOptions
+                {
+                    ApiKey = configValuesProvider.Get("MAILGUN:APIKEY"),
+                    HostEmail = configValuesProvider.Get("MAILGUN:HOSTEMAIL")
                 }
             };
         }
@@ -60,7 +73,7 @@ namespace Core
     {
         public string Get(string valueName)
         {
-            return System.Environment.GetEnvironmentVariable(valueName);
+            return Environment.GetEnvironmentVariable(valueName);
         }
     }
 

@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs.Host;
 using PocketSharp;
 using PocketToKindle.Parsers;
 using System;
+using System.Threading.Tasks;
 
 namespace Function
 {
@@ -13,7 +14,7 @@ namespace Function
         private static Config _config;
 
         [FunctionName("ProcessAllUsers")]
-        public static void Run([TimerTrigger("0 */15 * * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context)
+        public static async Task Run([TimerTrigger("0 */15 * * * *")]TimerInfo myTimer, TraceWriter log, ExecutionContext context)
         {
             _config = new ConfigBuilder(context.FunctionAppDirectory).Build();
 
@@ -24,7 +25,7 @@ namespace Function
 
             UserProcessor processor = new UserProcessor(userService, sender);
 
-            processor.ProcessAsync().Wait();
+            await processor.ProcessAsync();
 
             log.Info($"Function ended at: {DateTime.Now}");
 
@@ -62,8 +63,8 @@ namespace Function
             if (string.IsNullOrEmpty(mailgunSenderOptions.ApiKey))
             {
                 emailSender = BuildSmtpEmailSender(_config.EmailSenderOptions);
-
-            } else
+            }
+            else
             {
                 emailSender = BuildMailgunEmailSender(mailgunSenderOptions);
             }

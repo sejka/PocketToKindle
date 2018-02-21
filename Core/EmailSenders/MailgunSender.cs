@@ -1,6 +1,8 @@
-﻿using RestSharp;
-using RestSharp.Authenticators;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.EmailSenders
@@ -10,25 +12,27 @@ namespace Core.EmailSenders
         private string _apiKey;
         private string _hostEmail;
         private string _domainName;
-        private RestClient _client { get; set; } = new RestClient("https://api.mailgun.net/v3/");
+        private static HttpClient _httpClient = new HttpClient();
 
         public MailgunSender(string apiKey, string hostEmail)
         {
-            _apiKey = apiKey;
+            _httpClient.BaseAddress = new Uri("https://api.mailgun.net/v3/");
+            var authByteArray = Encoding.ASCII.GetBytes($"api:{_apiKey}");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authByteArray));
             _hostEmail = hostEmail;
             _domainName = hostEmail.Split('@')[1];
-            _client.Authenticator = new HttpBasicAuthenticator("api", _apiKey);
         }
 
         public async Task SendEmailAsync(string email, string title, string content)
         {
-            var request = new RestRequest($"{_domainName}/messages");
-            request.AddParameter("from", _hostEmail);
-            request.AddParameter("to", email);
-            request.AddParameter("subject", title);
-            request.AddParameter("html", content);
-            request.Method = Method.POST;
-            var response = _client.Execute(request);
+            var parameters = new Dictionary<string, string> {
+                { "from", _hostEmail },
+                { "to", email },
+                { "subject", title },
+                { "html", content }
+            };
+            var args = new FormUrlEncodedContent(parameters);
+            await _httpClient.PostAsync("", args);
         }
     }
 }

@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Function", "Function\Function.csproj", "{DD5FCC95-1285-4E46-92C3-AF28D6DBA414}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegisterCLI", "RegisterCLI\RegisterCLI.csproj", "{034B436C-6A41-4621-A742-67BA9CB9086B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegisterCLI", "RegisterCLI\RegisterCLI.csproj", "{034B436C-6A41-4621-A742-67BA9CB9086B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

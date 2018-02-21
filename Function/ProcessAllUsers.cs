@@ -21,7 +21,8 @@ namespace Function
             log.Info($"C# Timer trigger function executed at: {DateTime.Now}");
 
             UserService userService = UserService.BuildUserService(_config.StorageConnectionString);
-            Sender sender = BuildSender(_config.PocketConsumerKey, _config.MercuryApiKey, _config.MailGunSenderOptions, _config.EmailSenderOptions);
+            var emailSender = BuildEmailSender(_config.MailGunSenderOptions, _config.EmailSenderOptions);
+            Sender sender = BuildSender(_config.PocketConsumerKey, _config.MercuryApiKey, emailSender);
 
             UserProcessor processor = new UserProcessor(userService, sender);
 
@@ -44,15 +45,10 @@ namespace Function
             return mailgunSender;
         }
 
-        //todo too many parameters :/ smtp and mailgun options should be resolved elsewhere
-        private static Sender BuildSender(string pocketConsumerKey,
-            string mercuryApiKey,
-            MailgunSenderOptions mailgunSenderOptions,
-            SmtpSenderOptions smtpSenderOptions)
+        private static Sender BuildSender(string pocketConsumerKey, string mercuryApiKey, IEmailSender emailSender)
         {
             var pocketClient = new PocketClient(pocketConsumerKey);
             var mercuryParser = new MercuryParser(mercuryApiKey);
-            var emailSender = BuildEmailSender(mailgunSenderOptions, smtpSenderOptions);
             var sender = new Sender(pocketClient, mercuryParser, emailSender);
             return sender;
         }

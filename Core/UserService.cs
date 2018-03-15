@@ -54,6 +54,7 @@ namespace Core
 
         public async void AddUser(User user)
         {
+            user.KindleEmail.Trim();
             TableOperation insertOperation = TableOperation.Insert(user);
             user.PartitionKey = user.PocketUsername.Substring(0, Math.Min(user.PocketUsername.Length, 3));
             user.RowKey = user.PocketUsername;

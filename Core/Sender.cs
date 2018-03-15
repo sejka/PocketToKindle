@@ -52,7 +52,8 @@ namespace Core
         private async Task<IEnumerable<PocketItem>> GetArticlesSince(User user)
         {
             _pocketClient.AccessCode = user.AccessCode;
-            var articles = await _pocketClient.Get(since: user.LastProcessingDate, count: 10);
+            //don't get more than 5 last articles
+            var articles = await _pocketClient.Get(since: user.LastProcessingDate, count: 5);
 
             return articles;
         }

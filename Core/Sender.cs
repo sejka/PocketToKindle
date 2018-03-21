@@ -41,7 +41,7 @@ namespace Core
             foreach (var articleUrl in allArticleUrls)
             {
                 var parsedArticle = await _parser.ParseAsync(articleUrl);
-                await _emailSender.SendEmailWithHtmlAttachmentAsync(user.KindleEmail, parsedArticle.Title, parsedArticle.Content);
+                await _emailSender.SendEmailWithHtmlAttachmentAsync(user.KindleEmail, parsedArticle.Title, $@"<html><body>{parsedArticle.Content}</body></html>");
 
                 resultArticles.Add(articleUrl);
             }
@@ -52,6 +52,7 @@ namespace Core
         private async Task<IEnumerable<PocketItem>> GetArticlesSince(User user)
         {
             _pocketClient.AccessCode = user.AccessCode;
+
             //don't get more than 5 last articles
             var articles = await _pocketClient.Get(since: user.LastProcessingDate, count: 5);
 

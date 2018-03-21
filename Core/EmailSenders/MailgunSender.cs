@@ -37,7 +37,7 @@ namespace Core.EmailSenders
                 request.Add(new StringContent(parameter.Value), parameter.Key);
             }
 
-            var fileContent = new ByteArrayContent(Encoding.ASCII.GetBytes(htmlContent));
+            var fileContent = new ByteArrayContent(Encoding.ASCII.GetBytes($"<html><body>{htmlContent}</body></html>"));
             fileContent.Headers.ContentDisposition =
                     new ContentDispositionHeaderValue("form-data") //<- 'form-data' instead of 'attachment'
                     {

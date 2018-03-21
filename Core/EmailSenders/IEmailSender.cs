@@ -4,6 +4,6 @@ namespace Core.EmailSenders
 {
     public interface IEmailSender
     {
-        Task SendEmailAsync(string email, string title, string content);
+        Task SendEmailWithHtmlAttachmentAsync(string email, string title, string content);
     }
 }

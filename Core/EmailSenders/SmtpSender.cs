@@ -20,11 +20,10 @@ namespace Core.EmailSenders
         public void Connect()
         {
             _smtpClient.Connect(_options.Host, _options.Port, MailKit.Security.SecureSocketOptions.StartTlsWhenAvailable);
-            _smtpClient.AuthenticationMechanisms.Remove("XOAUTH2");
             _smtpClient.AuthenticateAsync(_options.Login, _options.Password);
         }
 
-        public async Task SendEmailAsync(string email, string title, string content)
+        public async Task SendEmailWithHtmlAttachmentAsync(string email, string title, string content)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Pocket to Kindle", "pockettokindle@gmail.com"));

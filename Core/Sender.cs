@@ -41,7 +41,7 @@ namespace Core
             foreach (var articleUrl in allArticleUrls)
             {
                 var parsedArticle = await _parser.ParseAsync(articleUrl);
-                await _emailSender.SendEmailAsync(user.KindleEmail, parsedArticle.Title, parsedArticle.Content);
+                await _emailSender.SendEmailWithHtmlAttachmentAsync(user.KindleEmail, parsedArticle.Title, parsedArticle.Content);
 
                 resultArticles.Add(articleUrl);
             }

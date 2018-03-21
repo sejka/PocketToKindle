@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegisterCLI", "RegisterCLI\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessAllUsersFunction", "ProcessAllUsersFunction\ProcessAllUsersFunction.csproj", "{9A99E6FD-C435-4C19-9B48-CC5DAC308104}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSenderCLI", "EmailSenderCLI\EmailSenderCLI.csproj", "{DD5C3138-3099-477D-958F-8DBB39316110}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{9A99E6FD-C435-4C19-9B48-CC5DAC308104}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A99E6FD-C435-4C19-9B48-CC5DAC308104}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A99E6FD-C435-4C19-9B48-CC5DAC308104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD5C3138-3099-477D-958F-8DBB39316110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD5C3138-3099-477D-958F-8DBB39316110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD5C3138-3099-477D-958F-8DBB39316110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD5C3138-3099-477D-958F-8DBB39316110}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

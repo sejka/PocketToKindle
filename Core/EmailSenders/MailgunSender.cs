@@ -26,7 +26,7 @@ namespace Core.EmailSenders
             var parameters = new Dictionary<string, string> {
                 { "from", _hostEmail },
                 { "to", email },
-                { "subject", subject },
+                { "subject", "Convert" },
                 { "text", "sent from pocket to kindle app" }
             };
 

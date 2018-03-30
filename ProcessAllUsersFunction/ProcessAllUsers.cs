@@ -14,7 +14,7 @@ namespace Function
         private static Config _config;
 
         [FunctionName("ProcessAllUsers")]
-        public static async Task Run([TimerTrigger("0 */1 * * * *")]TimerInfo myTimer,
+        public static async Task Run([TimerTrigger("0 */15 * * * *")]TimerInfo myTimer,
             TraceWriter log,
             ExecutionContext context)
         {

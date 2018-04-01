@@ -23,7 +23,7 @@ namespace Function
             log.Info($"C# Timer trigger function executed at: {DateTime.Now}");
 
             UserService userService = UserService.BuildUserService(_config.StorageConnectionString);
-            IEmailSender emailSender = new SmtpSender(_config.EmailSenderOptions);
+            IEmailSender emailSender = new MailgunSender(_config.MailGunSenderOptions.ApiKey, _config.MailGunSenderOptions.HostEmail);
             Sender sender = BuildSender(_config.PocketConsumerKey, _config.MercuryApiKey, emailSender);
 
             UserProcessor processor = new UserProcessor(userService, sender);

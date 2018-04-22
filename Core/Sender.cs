@@ -41,6 +41,8 @@ namespace Core
             foreach (var articleUrl in allArticleUrls)
             {
                 var parsedArticle = await _parser.ParseAsync(articleUrl);
+                parsedArticle = await ImageInliner.InlineImagesAsync(parsedArticle);
+
                 await _emailSender.SendEmailWithHtmlAttachmentAsync(user.KindleEmail, parsedArticle.Title, $@"<html><body>{parsedArticle.Content}</body></html>");
 
                 resultArticles.Add(articleUrl);

@@ -48,15 +48,14 @@ namespace Core
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
             CloudTable userCloudTable = tableClient.GetTableReference("users");
             userCloudTable.CreateIfNotExistsAsync();
-            var userService = new UserService(userCloudTable);
-            return userService;
+            return new UserService(userCloudTable);
         }
 
         public async void AddUser(User user)
         {
             user.KindleEmail.Trim();
             TableOperation insertOperation = TableOperation.Insert(user);
-            user.PartitionKey = user.PocketUsername.Substring(0, Math.Min(user.PocketUsername.Length, 3));
+            user.PartitionKey = "user";
             user.RowKey = user.PocketUsername;
             var result = await _userTable.ExecuteAsync(insertOperation);
         }

@@ -6,7 +6,7 @@ namespace PocketToKindleTests
 {
     public class MercuryParserTests
     {
-        Config _config = new ConfigBuilder(".").Build();
+        private Config _config = new ConfigBuilder(".").Build();
 
         [Fact]
         public async void Parser_ParsesCorrectlySampleArticle()

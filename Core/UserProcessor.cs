@@ -51,7 +51,7 @@ namespace Core
 
         private async Task<IList<string>> ProcessBatchAsync(IEnumerable<User> users)
         {
-            var processorTasks = users.Select(x => ProcessUserAsync(x));
+            var processorTasks = users.Select(ProcessUserAsync);
             var urlsSentToUsers = await Task.WhenAll(processorTasks);
             return AggregateResults(urlsSentToUsers);
         }

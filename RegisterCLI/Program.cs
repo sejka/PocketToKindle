@@ -23,7 +23,7 @@ namespace RegisterCLI
 
             var _client = new PocketClient(_config.PocketConsumerKey, callbackUri: _config.PocketRedirectUri);
             string requestCode = await _client.GetRequestCode();
-            OpenBrowser(_client.GenerateRegistrationUri(requestCode).ToString());
+            Console.WriteLine(_client.GenerateRegistrationUri(requestCode).ToString());
             PocketUser pocketUser = await _client.GetUser(requestCode);
 
             IUserService userService = UserService.BuildUserService(_config.StorageConnectionString);
@@ -45,26 +45,6 @@ namespace RegisterCLI
             Console.ReadLine();
 
             return 0;
-        }
-
-        public static void OpenBrowser(string url)
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Process.Start(new ProcessStartInfo("cmd", $"/c start {url}"));
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                Process.Start("xdg-open", url);
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                Process.Start("open", url);
-            }
-            else
-            {
-                Console.WriteLine($"Please visit: {url}");
-            }
         }
     }
 }

@@ -10,14 +10,30 @@ namespace Core.EmailSenders
     public class MailgunSender : IEmailSender
     {
         private string _hostEmail;
-        private static HttpClient _httpClient = new HttpClient();
+        private HttpClient _httpClient = new HttpClient();
 
         public MailgunSender(string apiKey, string hostEmail)
         {
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                throw new ArgumentNullException("apikey is null", nameof(apiKey));
+            }
+
+            if (string.IsNullOrEmpty(hostEmail))
+            {
+                throw new ArgumentNullException("hostemail is null", nameof(hostEmail));
+            }
+
             var authByteArray = Encoding.ASCII.GetBytes($"api:{apiKey}");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authByteArray));
             _hostEmail = hostEmail;
             var domainName = hostEmail.Split('@')[1];
+
+            if (string.IsNullOrEmpty(domainName))
+            {
+                throw new ArgumentException("invalid hostemail", nameof(domainName));
+            }
+
             _httpClient.BaseAddress = new Uri($"https://api.mailgun.net/v3/{domainName}/messages");
         }
 
@@ -39,9 +55,9 @@ namespace Core.EmailSenders
 
             var fileContent = new ByteArrayContent(Encoding.ASCII.GetBytes(htmlContent));
             fileContent.Headers.ContentDisposition =
-                    new ContentDispositionHeaderValue("form-data") //<- 'form-data' instead of 'attachment'
+                    new ContentDispositionHeaderValue("form-data")
                     {
-                        Name = "attachment", // <- included line...
+                        Name = "attachment",
                         FileName = $"{subject}.html",
                     };
             request.Add(fileContent);

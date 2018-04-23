@@ -15,7 +15,6 @@ namespace RegisterCLI
     internal class Program
     {
         private static Config _config = new ConfigBuilder(".").Build();
-        private static HttpClient _httpClient = new HttpClient();
 
         private static async Task<int> Main(string[] args)
         {
@@ -24,6 +23,8 @@ namespace RegisterCLI
             var _client = new PocketClient(_config.PocketConsumerKey, callbackUri: _config.PocketRedirectUri);
             string requestCode = await _client.GetRequestCode();
             Console.WriteLine(_client.GenerateRegistrationUri(requestCode).ToString());
+            Console.WriteLine("Press enter after authorizing app...");
+            Console.ReadLine();
             PocketUser pocketUser = await _client.GetUser(requestCode);
 
             IUserService userService = UserService.BuildUserService(_config.StorageConnectionString);

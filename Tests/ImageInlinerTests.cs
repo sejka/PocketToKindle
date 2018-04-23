@@ -20,7 +20,7 @@ namespace Tests
         //}
 
         //[Fact]
-        //public async void ProperlyReplacesImageElement()
+        //public async void ProperlyReplacesImageElement(),
         //{
         //    var image = HtmlNode.CreateNode($"<img src=\"{SAMPLE_IMAGE_URL}\">");
         //    var expectedOutput = HtmlNode.CreateNode($"<img src=\"data:image/jpeg;base64,{SAMPLE_IMAGE_AS_BASE64}\">");

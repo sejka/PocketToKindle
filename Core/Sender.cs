@@ -16,14 +16,20 @@ namespace Core
     public class Sender : ISender
     {
         private IEmailSender _emailSender;
+        private string _domain;
         private IParser _parser;
         private IPocketClient _pocketClient;
 
-        public Sender(IPocketClient pocketClient, IParser parser, IEmailSender emailSender)
+        public Sender(
+            IPocketClient pocketClient,
+            IParser parser,
+            IEmailSender emailSender,
+            string domain)
         {
             _pocketClient = pocketClient;
             _parser = parser;
             _emailSender = emailSender;
+            _domain = domain;
         }
 
         public async Task<ICollection<string>> SendAsync(User user)
@@ -42,6 +48,7 @@ namespace Core
             {
                 var parsedArticle = await _parser.ParseAsync(articleUrl);
                 parsedArticle = await ImageInliner.InlineImagesAsync(parsedArticle);
+                parsedArticle.AddReportLink(_domain);
 
                 await _emailSender.SendEmailWithHtmlAttachmentAsync(user.KindleEmail, parsedArticle.Title, $@"<html><body>{parsedArticle.Content}</body></html>");
 
@@ -56,9 +63,7 @@ namespace Core
             _pocketClient.AccessCode = user.AccessCode;
 
             //don't get more than 5 last articles
-            var articles = await _pocketClient.Get(since: user.LastProcessingDate, count: 5);
-
-            return articles;
+            return await _pocketClient.Get(since: user.LastProcessingDate, count: 5);
         }
     }
 }

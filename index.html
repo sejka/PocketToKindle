@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>Pocket to kindle</title>
+        <style>
+            .wrapper {
+                max-width: 50em;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <h1>
+                Pocket to kindle
+            </h1>
+            <div>
+                Pocket to kindle sends your pocket articles to your kindle!
+            </div>
+
+            <h2>Register</h2>
+            <ol>
+                <li>
+                    First, <button id="authorize-pocket-button">Authorize Pocket</button>
+                </li>
+                <li>
+                    Next go to https://www.amazon.com/hz/mycd/myx#/home/settings/payment "Personal Document Settings" add "kindle@mail.sejkapp.pl" as approved email.
+                </li>
+                <li>
+                    Finally, find your kindle email in "Your Devices" tab and share it below:<br/>
+                    <input id="email-input" type="text"><br />
+                    <button id="submit-button">Submit</button>
+                </li>
+            </ol>
+            <span class="footer">
+                <a href="https://github.com/sejka/pockettokindle">Source code</a>
+                <a href="https://twitter.com/karolsejka">Karol Sejka</a>
+            </span>
+        </div>
+        <script type="text/javascript">
+            var authorizeButton = document.getElementById('authorize-pocket-button');
+            var submitButton = document.getElementById('submit-button');
+            submitButton.onclick = register;
+            authorizeButton.onclick = authroizeOnPocket;
+
+            function register(){
+                var xhReq = new XMLHttpRequest();
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhReq.open("POST", "https://pockettokindle.azurewebsites.net/api/Register", false);
+
+                var kindleEmail = document.getElementById('email-input').value;
+                var url = new URL(window.location.href);
+                var requestCode = document.cookie;
+
+                var data = JSON.stringify({"kindleEmail": kindleEmail, "requestCode": requestCode});
+                xhr.send(data);
+                var serverResponse = xhReq.responseText;
+                alert(serverResponse);
+            }
+
+            function authroizeOnPocket() {
+                var xhReq = new XMLHttpRequest();
+                xhReq.open("GET", "https://pockettokindle.azurewebsites.net/api/GetRegistrationInfo", false);
+                xhReq.send(null);
+                var serverResponse = JSON.parse(xhReq.responseText);
+                document.cookie = serverResponse.requestCode;
+                window.open(serverResponse.registrationLink);
+            }
+        </script>
+    </body>
+</html>

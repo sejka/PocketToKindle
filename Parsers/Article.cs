@@ -17,5 +17,11 @@ namespace PocketToKindle.Models
         public int Total_pages { get; set; }
         public int Rendered_pages { get; set; }
         public object Next_page_url { get; set; }
+
+        public void AddReportLink(string domain)
+        {
+            //todo find other place for this method
+            string.Concat(Content, $"<a href=\"{domain}/api/report?url={Url}\">Report this article as incorrectly parsed</a>");
+        }
     }
 }

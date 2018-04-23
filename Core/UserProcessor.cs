@@ -56,7 +56,7 @@ namespace Core
             return AggregateResults(urlsSentToUsers);
         }
 
-        private async Task<IList<string>> ProcessUserAsync(User user)
+        public async Task<IList<string>> ProcessUserAsync(User user)
         {
             var senderTask = _sender.SendAsync(user);
             var userUpdaterTask = _userService.UpdateLastProcessingDateAsync(user);

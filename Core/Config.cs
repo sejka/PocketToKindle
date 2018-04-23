@@ -12,6 +12,7 @@ namespace Core
         public string PocketRedirectUri { get; set; }
         public SmtpSenderOptions EmailSenderOptions { get; set; }
         public MailgunSenderOptions MailGunSenderOptions { get; set; }
+        public string ServiceDomain { get; set; }
     }
 
     public class SmtpSenderOptions
@@ -48,6 +49,7 @@ namespace Core
                 StorageConnectionString = configValuesProvider.Get("STORAGE_CONNECTION_STRING"),
                 PocketConsumerKey = configValuesProvider.Get("POCKET_CONSUMER_KEY"),
                 PocketRedirectUri = configValuesProvider.Get("POCKET_REDIRECT_URI"),
+                ServiceDomain = configValuesProvider.Get("SERVICE_DOMAIN"),
                 EmailSenderOptions = new SmtpSenderOptions
                 {
                     Host = configValuesProvider.Get("EMAIL:HOST"),

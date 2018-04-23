@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegisterCLI", "RegisterCLI\RegisterCLI.csproj", "{034B436C-6A41-4621-A742-67BA9CB9086B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessAllUsersFunction", "ProcessAllUsersFunction\ProcessAllUsersFunction.csproj", "{9A99E6FD-C435-4C19-9B48-CC5DAC308104}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Functions", "ProcessAllUsersFunction\Functions.csproj", "{9A99E6FD-C435-4C19-9B48-CC5DAC308104}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailSenderCLI", "EmailSenderCLI\EmailSenderCLI.csproj", "{DD5C3138-3099-477D-958F-8DBB39316110}"
 EndProject

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("Tests")]
 
-namespace Core
+namespace PocketToKindle.Parsers
 {
     internal static class ImageInliner
     {
         private static HttpClient _httpClient = new HttpClient();
 
-        public static async Task<Article> InlineImagesAsync(Article article)
+        public static async Task<MercuryArticle> InlineImagesAsync(MercuryArticle article)
         {
             var articleContent = new HtmlDocument();
             articleContent.LoadHtml(article.Content);
@@ -41,14 +41,31 @@ namespace Core
 
         private static async Task InlineImageAsync(HtmlNode image)
         {
-            string imageInBase64 = await GetImageAsBase64UrlAsync(image.Attributes["src"].Value);
+            string imageUrl;
+            if (image.Attributes.Contains("srcset"))
+            {
+                imageUrl = SelectImageFromSrcset(image.Attributes["srcset"].Value);
+                image.Attributes.Remove("srcset");
+            }
+            else
+            {
+                imageUrl = image.Attributes["src"].Value;
+            }
 
-            image.Attributes["src"].Value = $"data:image/jpeg;base64,{imageInBase64}";
+            string imageAsBase64 = await GetImageAsBase64Async(imageUrl);
+            image.Attributes["src"].Value = $"data:image/jpeg;base64,{imageAsBase64}";
         }
 
-        private async static Task<string> GetImageAsBase64UrlAsync(string url)
+        private static string SelectImageFromSrcset(string srcsetValue)
+        {
+            int firstSpaceIndex = srcsetValue.IndexOf(' ');
+            return srcsetValue.Substring(0, firstSpaceIndex);
+        }
+
+        private async static Task<string> GetImageAsBase64Async(string url)
         {
             var bytes = await _httpClient.GetByteArrayAsync(url);
+
             return Convert.ToBase64String(bytes);
         }
     }

@@ -1,18 +1,12 @@
 ﻿using Core;
-using Newtonsoft.Json;
 using PocketSharp;
 using PocketSharp.Models;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RegisterCLI
 {
-    internal class Program
+    internal static class Program
     {
         private static Config _config = new ConfigBuilder(".").Build();
 

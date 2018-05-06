@@ -24,7 +24,7 @@ namespace Function
 
             UserService userService = UserService.BuildUserService(_config.StorageConnectionString);
             IEmailSender emailSender = new MailgunSender(_config.MailGunSenderOptions.ApiKey, _config.MailGunSenderOptions.HostEmail);
-            Sender sender = BuildSender(_config.PocketConsumerKey, _config.MercuryApiKey, emailSender, _config.ServiceDomain);
+            Sender sender = BuildSender(_config.PocketConsumerKey, _config.MercuryApiKey, emailSender, _config.ServiceDomain, _config.FunctionKey);
 
             UserProcessor processor = new UserProcessor(userService, sender);
 
@@ -53,11 +53,11 @@ namespace Function
             }
         }
 
-        private static Sender BuildSender(string pocketConsumerKey, string mercuryApiKey, IEmailSender emailSender, string domain)
+        private static Sender BuildSender(string pocketConsumerKey, string mercuryApiKey, IEmailSender emailSender, string domain, string functionKey)
         {
             var pocketClient = new PocketClient(pocketConsumerKey);
-            var mercuryParser = new MercuryParser(mercuryApiKey);
-            return new Sender(pocketClient, mercuryParser, emailSender, domain);
+            var mercuryParser = new MercuryParser(mercuryApiKey, domain, functionKey);
+            return new Sender(pocketClient, mercuryParser, emailSender);
         }
     }
 }

@@ -84,8 +84,8 @@
                 false);
             xhReq.send(null);
             var serverResponse = JSON.parse(xhReq.responseText);
-            document.cookie = serverResponse.requestCode;
-            window.open(serverResponse.registrationLink);
+            document.cookie = serverResponse.RequestCode;
+            window.open(serverResponse.RegistrationLink);
         }
     </script>
 </body>

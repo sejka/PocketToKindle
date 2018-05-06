@@ -58,7 +58,7 @@ namespace Core.EmailSenders
                     new ContentDispositionHeaderValue("form-data")
                     {
                         Name = "attachment",
-                        FileName = $"{subject}.html",
+                        FileName = $"{subject.Normalize()}.html",
                     };
             request.Add(fileContent);
 

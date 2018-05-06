@@ -1,6 +1,7 @@
 ﻿using Core;
 using HtmlAgilityPack;
 using PocketToKindle.Models;
+using PocketToKindle.Parsers;
 using Xunit;
 
 namespace Tests
@@ -33,7 +34,7 @@ namespace Tests
         [Fact]
         public async void InlinesArticlesImages()
         {
-            var sampleArticle = new Article
+            var sampleArticle = new MercuryArticle
             {
                 Content = $"<img src=\"{SAMPLE_IMAGE_URL}\">asdasdasdasd<img src=\"{SAMPLE_IMAGE_URL}\">asdasdasdasd"
             };
@@ -46,7 +47,7 @@ namespace Tests
         [Fact]
         public async void DoesntChangeArticleWhenNoImagesDetected()
         {
-            var sampleArticle = new Article
+            var sampleArticle = new MercuryArticle
             {
                 Content = "asdasdasdasdasdasdasdasd"
             };

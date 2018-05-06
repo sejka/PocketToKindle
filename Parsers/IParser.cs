@@ -5,6 +5,6 @@ namespace PocketToKindle.Parsers
 {
     public interface IParser
     {
-        Task<Article> ParseAsync(string url);
+        Task<MercuryArticle> ParseAsync(string url);
     }
 }

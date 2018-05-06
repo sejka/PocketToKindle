@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using PocketToKindle.Models;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -8,20 +7,28 @@ namespace PocketToKindle.Parsers
 {
     public class MercuryParser : IParser
     {
-        private HttpClient httpClient = new HttpClient();
+        private readonly HttpClient httpClient = new HttpClient();
+        private readonly string _domain;
+        private readonly string _functionKey;
         private const string apiUrl = "https://mercury.postlight.com/parser?url=";
 
-        public MercuryParser(string apiKey)
+        public MercuryParser(string apiKey, string domain, string functionKey)
         {
+            _domain = domain;
+            _functionKey = functionKey;
             httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
         }
 
-        public async Task<Article> ParseAsync(string url)
+        public async Task<MercuryArticle> ParseAsync(string url)
         {
-            string fullapiUrl = string.Concat(apiUrl.ToString(), url.ToString());
-            var responseMessage = await httpClient.GetStringAsync(fullapiUrl);
+            string requestUrl = string.Concat(apiUrl, url);
+            var responseMessage = await httpClient.GetStringAsync(requestUrl);
 
-            var article = JsonConvert.DeserializeObject<Article>(responseMessage);
+            var article = JsonConvert.DeserializeObject<MercuryArticle>(responseMessage);
+
+            //todo move this other place
+            article = await ImageInliner.InlineImagesAsync(article);
+            article.AddReportLink(_domain, _functionKey);
 
             return article;
         }

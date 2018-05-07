@@ -10,7 +10,7 @@ using PocketSharp;
 using PocketSharp.Models;
 using System;
 
-namespace Functions
+namespace Functions.Web
 {
     public static class Register
     {

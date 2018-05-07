@@ -7,7 +7,7 @@ using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
 using PocketSharp;
 
-namespace Functions
+namespace Functions.Web
 {
     public static class GetRegistrationInfo
     {

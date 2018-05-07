@@ -12,7 +12,10 @@ namespace Functions
     public static class GetRegistrationInfo
     {
         [FunctionName("GetRegistrationInfo")]
-        public static async System.Threading.Tasks.Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequest req, TraceWriter log, ExecutionContext context)
+        public static async System.Threading.Tasks.Task<IActionResult> RunAsync(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequest req,
+            TraceWriter log,
+            ExecutionContext context)
         {
             Config _config = new ConfigBuilder(context.FunctionAppDirectory).Build();
 

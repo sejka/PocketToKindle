@@ -13,7 +13,7 @@ namespace Functions.Web
     {
         [FunctionName("GetRegistrationInfo")]
         public static async System.Threading.Tasks.Task<IActionResult> RunAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]HttpRequest req,
             TraceWriter log,
             ExecutionContext context)
         {
@@ -21,7 +21,7 @@ namespace Functions.Web
 
             log.Info("C# HTTP trigger function processed a request.");
 
-            var _client = new PocketClient(_config.PocketConsumerKey, callbackUri: _config.PocketRedirectUri);
+            var _client = new PocketClient(_config.PocketConsumerKey, callbackUri: _config.PocketRedirectUri, isMobileClient: false);
             string requestCode = await _client.GetRequestCode();
 
             var result = new

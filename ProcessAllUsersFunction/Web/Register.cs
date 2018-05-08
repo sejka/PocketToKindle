@@ -15,7 +15,7 @@ namespace Functions.Web
     public static class Register
     {
         [FunctionName("Register")]
-        public static async System.Threading.Tasks.Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequest req, TraceWriter log, ExecutionContext context)
+        public static async System.Threading.Tasks.Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]HttpRequest req, TraceWriter log, ExecutionContext context)
         {
             Config _config = new ConfigBuilder(context.FunctionAppDirectory).Build();
 

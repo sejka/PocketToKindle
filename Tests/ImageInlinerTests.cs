@@ -1,6 +1,4 @@
-﻿using Core;
-using HtmlAgilityPack;
-using PocketToKindle.Models;
+﻿using PocketToKindle.Models;
 using PocketToKindle.Parsers;
 using Xunit;
 

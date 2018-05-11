@@ -4,23 +4,21 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    //todo that name is awful...
     public class UserProcessor
     {
-        private ISender _sender;
+        private readonly IUserService _userService;
+        private readonly IQueue _usersQueue;
 
-        private IUserService _userService { get; set; }
-
-        public UserProcessor(IUserService userService, ISender sender)
+        public UserProcessor(IUserService userService, IQueue usersQueue)
         {
             _userService = userService;
-            _sender = sender;
+            _usersQueue = usersQueue;
         }
 
-        public async Task<IEnumerable<string>> ProcessAsync()
+        public async Task EnqueueAllUsersAsync()
         {
             var processedUrls = new List<string>();
-            var processTasks = new List<Task<IList<string>>>();
+            var processTasks = new List<Task>();
 
             do
             {
@@ -28,43 +26,20 @@ namespace Core
 
                 if (userBatch.Any())
                 {
-                    processTasks.Add(ProcessBatchAsync(userBatch));
+                    processTasks.Add(EnqueueBatchAsync(userBatch, _usersQueue));
                 }
             } while (_userService.GetContinuationToken() != null);
 
-            var processTaskResults = await Task.WhenAll(processTasks);
-
-            return AggregateResults(processTaskResults);
+            await Task.WhenAll(processTasks);
         }
 
-        private static List<string> AggregateResults(ICollection<string>[] senderResults)
+        private static async Task EnqueueBatchAsync(IEnumerable<User> users, IQueue queue)
         {
-            var aggregatedUrls = new List<string>();
+            var processorTasks = users
+                .AsParallel()
+                .Select(async user => await queue.QueueUserAsync(user));
 
-            foreach (var urlsArray in senderResults)
-            {
-                aggregatedUrls.AddRange(urlsArray);
-            }
-
-            return aggregatedUrls;
-        }
-
-        private async Task<IList<string>> ProcessBatchAsync(IEnumerable<User> users)
-        {
-            var processorTasks = users.Select(ProcessUserAsync);
-            var urlsSentToUsers = await Task.WhenAll(processorTasks);
-            return AggregateResults(urlsSentToUsers);
-        }
-
-        public async Task<IList<string>> ProcessUserAsync(User user)
-        {
-            var senderTask = _sender.SendAsync(user);
-            var userUpdaterTask = _userService.UpdateLastProcessingDateAsync(user);
-
-            var sentUrls = await senderTask;
-            await userUpdaterTask;
-
-            return sentUrls.ToList();
+            await Task.WhenAll(processorTasks);
         }
     }
 }

@@ -1,14 +1,14 @@
-using System.IO;
+using Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
-using Core;
 using PocketSharp;
 using PocketSharp.Models;
 using System;
+using System.IO;
 
 namespace Functions.Web
 {

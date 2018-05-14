@@ -23,7 +23,7 @@ namespace Functions
 
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_config.StorageConnectionString);
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
-            CloudQueue usersQueue = queueClient.GetQueueReference("UsersToProcess");
+            CloudQueue usersQueue = queueClient.GetQueueReference("users-to-process");
 
             var userProcessor = new UserProcessor(userService, new Queue(usersQueue));
             await userProcessor.EnqueueAllUsersAsync();

@@ -13,7 +13,7 @@ namespace Functions
     {
         [FunctionName("UserSender")]
         public static async Task Run(
-            [QueueTrigger("UsersToProcess", Connection = "")]string userJson,
+            [QueueTrigger("users-to-process", Connection = "")]string userJson,
             TraceWriter log,
             ExecutionContext executionContext)
         {

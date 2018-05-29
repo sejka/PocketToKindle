@@ -27,6 +27,9 @@ namespace Functions
 
             await sender.SendAsync(user);
 
+            var userService = UserService.BuildUserService(config.StorageConnectionString);
+            await userService.UpdateLastProcessingDateAsync(user);
+
             log.Info($"C# Queue trigger function processed: {userJson}");
         }
     }

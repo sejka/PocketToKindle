@@ -45,7 +45,7 @@ namespace Core
             {
                 var parsedArticle = await _parser.ParseAsync(articleUrl);
 
-                await _emailSender.SendEmailWithHtmlAttachmentAsync(user.KindleEmail, "Article from pocket to kindle", $@"<html><body>{parsedArticle.Content}</body></html>");
+                await _emailSender.SendEmailWithHtmlAttachmentAsync(user.KindleEmail, parsedArticle.Title, $@"<html><body>{parsedArticle.Content}</body></html>");
 
                 resultArticles.Add(articleUrl);
             }

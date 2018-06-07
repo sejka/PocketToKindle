@@ -52,13 +52,14 @@ namespace Core
                 PocketRedirectUri = configValuesProvider.Get("POCKET_REDIRECT_URI"),
                 ServiceDomain = configValuesProvider.Get("SERVICE_DOMAIN"),
                 FunctionKey = configValuesProvider.Get("FUNCTION_KEY"),
-                EmailSenderOptions = new SmtpSenderOptions
-                {
-                    Host = configValuesProvider.Get("EMAIL:HOST"),
-                    Login = configValuesProvider.Get("EMAIL:LOGIN"),
-                    Password = configValuesProvider.Get("EMAIL:PASSWORD"),
-                    Port = Convert.ToInt32(configValuesProvider.Get("EMAIL:PORT"))
-                },
+
+                //EmailSenderOptions = new SmtpSenderOptions
+                //{
+                //    Host = configValuesProvider.Get("EMAIL:HOST"),
+                //    Login = configValuesProvider.Get("EMAIL:LOGIN"),
+                //    Password = configValuesProvider.Get("EMAIL:PASSWORD"),
+                //    Port = Convert.ToInt32(configValuesProvider.Get("EMAIL:PORT"))
+                //},
                 MailGunSenderOptions = new MailgunSenderOptions
                 {
                     ApiKey = configValuesProvider.Get("MAILGUN:APIKEY"),

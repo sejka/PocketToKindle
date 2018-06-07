@@ -15,6 +15,7 @@ namespace Core
 
     public class Sender : ISender
     {
+        private const int ArticlesAmount = 5;
         private IEmailSender _emailSender;
         private IParser _parser;
         private IPocketClient _pocketClient;
@@ -31,7 +32,7 @@ namespace Core
 
         public async Task<ICollection<string>> SendAsync(User user)
         {
-            var allArticles = (await GetArticlesSince(user)).Where(x => x.Uri != null);
+            var allArticles = (await GetLastArticlesSinceLastProcessingDate(user, ArticlesAmount)).Where(x => x.Uri != null);
 
             if (!allArticles.Any())
             {
@@ -53,12 +54,15 @@ namespace Core
             return resultArticles;
         }
 
-        private Task<IEnumerable<PocketItem>> GetArticlesSince(User user)
+        private Task<IEnumerable<PocketItem>> GetLastArticlesSinceLastProcessingDate(User user, int articlesAmount)
         {
             _pocketClient.AccessCode = user.AccessCode;
 
-            //don't get more than 5 last articles
-            return _pocketClient.Get(since: user.LastProcessingDate, count: 5);
+            return _pocketClient.Get(
+                contentType: ContentType.article,
+                sort: Sort.newest,
+                since: user.LastProcessingDate,
+                count: articlesAmount);
         }
     }
 }

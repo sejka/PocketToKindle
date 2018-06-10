@@ -13,7 +13,7 @@ namespace Functions.Web
     {
         [FunctionName("GetRegistrationInfo")]
         public static async System.Threading.Tasks.Task<IActionResult> RunAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequest req,
             TraceWriter log,
             ExecutionContext context)
         {

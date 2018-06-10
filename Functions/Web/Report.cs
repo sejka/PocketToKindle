@@ -16,7 +16,7 @@ namespace Functions.Web
     {
         [FunctionName("Report")]
         public async static Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequest req,
             TraceWriter log,
             ExecutionContext context)
         {

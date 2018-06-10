@@ -61,7 +61,7 @@
             var xhReq = new XMLHttpRequest();
             xhr.setRequestHeader("Content-Type", "application/json");
             xhReq.open("POST",
-                "https://pockettokindle.azurewebsites.net/api/Register?code=nfAchAA29hxgl4HnxTaCsV9a7Z76FqOVDyQgT9PqVCQYWaI60LNh3g==",
+                "https://pockettokindle.azurewebsites.net/api/Register",
                 false);
 
             var kindleEmail = document.getElementById('email-input').value;
@@ -80,7 +80,7 @@
         function authroizeOnPocket() {
             var xhReq = new XMLHttpRequest();
             xhReq.open("GET",
-                "https://pockettokindle.azurewebsites.net/api/GetRegistrationInfo?code=nfAchAA29hxgl4HnxTaCsV9a7Z76FqOVDyQgT9PqVCQYWaI60LNh3g==",
+                "https://pockettokindle.azurewebsites.net/api/GetRegistrationInfo",
                 false);
             xhReq.send(null);
             var serverResponse = JSON.parse(xhReq.responseText);

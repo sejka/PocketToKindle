@@ -12,7 +12,7 @@ namespace PocketToKindleTests
         public async void Parser_ParsesCorrectlySampleArticle()
         {
             string testUrl = "https://waitbutwhy.com/2015/01/artificial-intelligence-revolution-1.html";
-            MercuryParser mercuryParser = new MercuryParser(_config.MercuryApiKey, _config.ServiceDomain, _config.FunctionKey);
+            MercuryParser mercuryParser = new MercuryParser(_config.MercuryApiKey, _config.ServiceDomain);
 
             var article = await mercuryParser.ParseAsync(testUrl);
 

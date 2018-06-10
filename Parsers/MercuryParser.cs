@@ -12,10 +12,9 @@ namespace PocketToKindle.Parsers
         private readonly string _functionKey;
         private const string apiUrl = "https://mercury.postlight.com/parser?url=";
 
-        public MercuryParser(string apiKey, string domain, string functionKey)
+        public MercuryParser(string apiKey, string domain)
         {
             _domain = domain;
-            _functionKey = functionKey;
             httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
         }
 

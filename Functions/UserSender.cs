@@ -22,7 +22,7 @@ namespace Functions
             var user = JsonConvert.DeserializeObject<User>(userJson);
             var sender = new Sender(
                 new PocketClient(config.PocketConsumerKey, user.AccessCode),
-                new MercuryParser(config.MercuryApiKey, config.ServiceDomain, config.FunctionKey),
+                new MercuryParser(config.MercuryApiKey, config.ServiceDomain),
                 new MailgunSender(config.MailGunSenderOptions.ApiKey, config.MailGunSenderOptions.HostEmail));
 
             await sender.SendAsync(user);

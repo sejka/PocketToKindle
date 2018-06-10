@@ -3,7 +3,9 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
-using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 
 namespace Functions
@@ -40,7 +42,20 @@ namespace Functions
 
             public async Task QueueUserAsync(User user)
             {
-                await _cloudQueue.AddMessageAsync(new CloudQueueMessage(JsonConvert.SerializeObject(user)));
+                var payload = Convert.ToBase64String(ObjectToByteArray(user));
+                await _cloudQueue.AddMessageAsync(new CloudQueueMessage(payload));
+            }
+
+            private byte[] ObjectToByteArray(object obj)
+            {
+                if (obj == null)
+                    return null;
+                BinaryFormatter bf = new BinaryFormatter();
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    bf.Serialize(ms, obj);
+                    return ms.ToArray();
+                }
             }
         }
     }

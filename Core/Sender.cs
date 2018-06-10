@@ -10,7 +10,7 @@ namespace Core
 {
     public interface ISender
     {
-        Task<ICollection<string>> SendAsync(User user);
+        Task SendAsync(User user);
     }
 
     public class Sender : ISender
@@ -30,28 +30,23 @@ namespace Core
             _emailSender = emailSender;
         }
 
-        public async Task<ICollection<string>> SendAsync(User user)
+        public async Task SendAsync(User user)
         {
             var allArticles = (await GetLastArticlesSinceLastProcessingDate(user, ArticlesAmount)).Where(x => x.Uri != null);
 
             if (!allArticles.Any())
             {
-                return new List<string>();
+                return;
             }
 
             var allArticleUrls = allArticles.Select(article => article.Uri.ToString());
-            var resultArticles = new List<string>();
 
             foreach (var articleUrl in allArticleUrls)
             {
                 var parsedArticle = await _parser.ParseAsync(articleUrl);
 
                 await _emailSender.SendEmailWithHtmlAttachmentAsync(user.KindleEmail, parsedArticle.Title, $@"<html><body>{parsedArticle.Content}</body></html>");
-
-                resultArticles.Add(articleUrl);
             }
-
-            return resultArticles;
         }
 
         private Task<IEnumerable<PocketItem>> GetLastArticlesSinceLastProcessingDate(User user, int articlesAmount)

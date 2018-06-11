@@ -40,8 +40,8 @@ namespace EmailSenderCLI
                     )
                 );
 
-            var sender = new Sender(pocketClientMock.Object, parser, emailSender);
-            await sender.SendAsync(new User { KindleEmail = "teherty@gmail.com" });
+            var sender = new ArticleSender(pocketClientMock.Object, parser, emailSender);
+            await sender.SendArticlesAsync(new User { KindleEmail = "teherty@gmail.com" });
         }
     }
 }

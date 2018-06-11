@@ -20,12 +20,12 @@ namespace Functions
             var config = new ConfigBuilder(executionContext.FunctionAppDirectory).Build();
 
             var user = JsonConvert.DeserializeObject<User>(userJson);
-            var sender = new Sender(
+            var sender = new ArticleSender(
                 new PocketClient(config.PocketConsumerKey, user.AccessCode),
                 new MercuryParser(config.MercuryApiKey, config.ServiceDomain),
                 new MailgunSender(config.MailGunSenderOptions.ApiKey, config.MailGunSenderOptions.HostEmail));
 
-            await sender.SendAsync(user);
+            await sender.SendArticlesAsync(user);
 
             var userService = UserService.BuildUserService(config.StorageConnectionString);
             await userService.UpdateLastProcessingDateAsync(user);

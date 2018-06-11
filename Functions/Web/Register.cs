@@ -35,7 +35,17 @@ namespace Functions.Web
                 return new BadRequestObjectResult("email provided is not valid");
             }
 
-            PocketUser pocketUser = await _client.GetUser(request.RequestCode);
+            PocketUser pocketUser = new PocketUser();
+
+            try
+            {
+                pocketUser = await _client.GetUser(request.RequestCode);
+            }
+            catch (PocketException pocketException)
+            {
+                log.Error($"Something went wrong: {pocketException.Message}.");
+                return new BadRequestObjectResult(pocketException.Message);
+            }
 
             IUserService userService = UserService.BuildUserService(_config.StorageConnectionString);
             await userService.AddUserAsync(new User
@@ -52,6 +62,19 @@ namespace Functions.Web
             return new OkObjectResult("yasss");
         }
 
+        private static bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private static async Task SendWelcomeEmail(IEmailSender _emailSender, string email)
         {
             await _emailSender.SendEmailWithHtmlAttachmentAsync(email, "Thanks for registering in PocketToKindle!",
@@ -66,21 +89,8 @@ namespace Functions.Web
 
         private class RegisterRequest
         {
-            public string RequestCode { get; set; }
             public string KindleEmail { get; set; }
-        }
-
-        private static bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
+            public string RequestCode { get; set; }
         }
     }
 }

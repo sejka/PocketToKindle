@@ -10,17 +10,17 @@ namespace Core
 {
     public interface ISender
     {
-        Task SendAsync(User user);
+        Task SendArticlesAsync(User user);
     }
 
-    public class Sender : ISender
+    public class ArticleSender : ISender
     {
-        private const int ArticlesAmount = 5;
+        private const int ArticlesAmount = 10;
         private IEmailSender _emailSender;
         private IParser _parser;
         private IPocketClient _pocketClient;
 
-        public Sender(
+        public ArticleSender(
             IPocketClient pocketClient,
             IParser parser,
             IEmailSender emailSender)
@@ -30,7 +30,7 @@ namespace Core
             _emailSender = emailSender;
         }
 
-        public async Task SendAsync(User user)
+        public async Task SendArticlesAsync(User user)
         {
             var allArticles = (await GetLastArticlesSinceLastProcessingDate(user, ArticlesAmount)).Where(x => x.Uri != null);
 

@@ -22,7 +22,7 @@
         }
 
         li {
-            margin-bottom: 1em;
+            margin-bottom: 0.8em;
         }
     </style>
 </head>
@@ -39,24 +39,18 @@
         <h2>Register</h2>
         <ol>
             <li>
-                First,
-                <p>
-                    <button id="authorize-pocket-button">Authorize Pocket</button>
-                </p>
+                First, <button id="authorize-pocket-button">Authorize Pocket</button>
             </li>
             <li>
                 Next go to
-                <a href="https://www.amazon.com/hz/mycd/myx#/home/settings/payment">Kindle email allowed senders</a> under "Personal Document Settings" and add "kindle@mail.sejkapp.pl" as approved
-                email.
+                <a href="https://www.amazon.com/hz/mycd/myx#/home/settings/payment">Kindle email allowed senders</a> under "Personal Document Settings" and add "kindle@mail.sejkapp.pl" as approved email.
             </li>
             <li>
                 Finally, find your kindle email in "Your Devices" tab and share it below:
                 <br/>
-                <p>
-                    <input id="email-input" type="text">
-                    <br />
-                    <button id="submit-button">Submit</button>
-                </p>
+                <input id="email-input" type="text">
+                <br />
+                <button id="submit-button">Submit</button>
             </li>
             <li>
                 That's it! If everything went fine you should receive an welcoming email on your kindle. Next time you add something to your pocket it should arrive within 15 minutes on your kindle. Enjoy!
@@ -75,10 +69,10 @@
 
         function register() {
             var xhReq = new XMLHttpRequest();
-            xhr.setRequestHeader("Content-Type", "application/json");
             xhReq.open("POST",
                 "https://pocket-to-kindle.azurewebsites.net/api/Register",
                 false);
+            xhReq.setRequestHeader("Content-Type", "application/json");
 
             var kindleEmail = document.getElementById('email-input').value;
             var url = new URL(window.location.href);
@@ -88,7 +82,7 @@
                 "kindleEmail": kindleEmail,
                 "requestCode": requestCode
             });
-            xhr.send(data);
+            xhReq.send(data);
             var serverResponse = xhReq.responseText;
             alert(serverResponse);
         }

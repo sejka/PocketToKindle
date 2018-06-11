@@ -16,6 +16,14 @@
         .footer a {
             color: grey;
         }
+
+        button {
+            padding: 0.5em 2em;
+        }
+
+        li {
+            margin-bottom: 1em;
+        }
     </style>
 </head>
 
@@ -32,18 +40,26 @@
         <ol>
             <li>
                 First,
-                <button id="authorize-pocket-button">Authorize Pocket</button>
+                <p>
+                    <button id="authorize-pocket-button">Authorize Pocket</button>
+                </p>
             </li>
             <li>
-                Next go to https://www.amazon.com/hz/mycd/myx#/home/settings/payment "Personal Document Settings" add "kindle@mail.sejkapp.pl"
-                as approved email.
+                Next go to
+                <a href="https://www.amazon.com/hz/mycd/myx#/home/settings/payment">Kindle email allowed senders</a> under "Personal Document Settings" and add "kindle@mail.sejkapp.pl" as approved
+                email.
             </li>
             <li>
                 Finally, find your kindle email in "Your Devices" tab and share it below:
                 <br/>
-                <input id="email-input" type="text">
-                <br />
-                <button id="submit-button">Submit</button>
+                <p>
+                    <input id="email-input" type="text">
+                    <br />
+                    <button id="submit-button">Submit</button>
+                </p>
+            </li>
+            <li>
+                That's it! If everything went fine you should receive an welcoming email on your kindle. Next time you add something to your pocket it should arrive within 15 minutes on your kindle. Enjoy!
             </li>
         </ol>
         <div class="footer">
@@ -85,7 +101,7 @@
             xhReq.send(null);
             var serverResponse = JSON.parse(xhReq.responseText);
             document.cookie = serverResponse.RequestCode;
-            window.open(serverResponse.RegistrationLink);
+            window.location.href = serverResponse.RegistrationLink;
         }
     </script>
 </body>

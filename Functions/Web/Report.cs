@@ -20,8 +20,6 @@ namespace Functions.Web
             TraceWriter log,
             ExecutionContext context)
         {
-            log.Info("C# HTTP trigger function processed a request.");
-
             var reportedUrlRow = new ReportedUrl
             {
                 PartitionKey = "reportedUrl",
@@ -31,7 +29,8 @@ namespace Functions.Web
 
             Config config = new ConfigBuilder(context.FunctionAppDirectory).Build();
 
-            await SaveToTable(reportedUrlRow, config.StorageConnectionString);
+            await SaveReportedUrl(reportedUrlRow, config.StorageConnectionString);
+            log.Info($"Reported url: {reportedUrlRow.Url}");
 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent($"<html><body><h1>Thank you for submiting that article!</h1><p>We'll investigate {reportedUrlRow.Url} soon.</p></body></html>");
@@ -39,7 +38,7 @@ namespace Functions.Web
             return response;
         }
 
-        private static async Task SaveToTable(ReportedUrl reportedUrlRow, string storageConnectionString)
+        private static async Task SaveReportedUrl(ReportedUrl reportedUrlRow, string storageConnectionString)
         {
             var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
             var tableClient = storageAccount.CreateCloudTableClient();

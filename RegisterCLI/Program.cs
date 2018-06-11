@@ -34,7 +34,7 @@ namespace RegisterCLI
                 LastProcessingDate = DateTime.UtcNow
             };
 
-            userService.AddUser(user);
+            userService.AddUserAsync(user);
 
             Console.WriteLine("Bye World!");
             Console.ReadLine();

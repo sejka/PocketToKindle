@@ -12,7 +12,7 @@ namespace Core
 
         TableContinuationToken GetContinuationToken();
 
-        void AddUser(User user);
+        Task AddUserAsync(User user);
 
         Task UpdateLastProcessingDateAsync(User user);
     }
@@ -47,11 +47,10 @@ namespace Core
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
             CloudTable userCloudTable = tableClient.GetTableReference("users");
-            userCloudTable.CreateIfNotExistsAsync();
             return new UserService(userCloudTable);
         }
 
-        public async void AddUser(User user)
+        public async Task AddUserAsync(User user)
         {
             user.KindleEmail.Trim();
             TableOperation insertOperation = TableOperation.Insert(user);

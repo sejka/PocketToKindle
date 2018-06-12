@@ -2,7 +2,6 @@
 using Core.EmailSenders;
 using Moq;
 using PocketSharp;
-using PocketToKindle.Models;
 using PocketToKindle.Parsers;
 using System;
 using System.Threading.Tasks;

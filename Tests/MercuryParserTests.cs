@@ -2,7 +2,7 @@ using Core;
 using PocketToKindle.Parsers;
 using Xunit;
 
-namespace PocketToKindleTests
+namespace Tests
 {
     public class MercuryParserTests
     {

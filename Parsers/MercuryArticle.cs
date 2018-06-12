@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace PocketToKindle.Models
+namespace PocketToKindle.Parsers
 {
     public class MercuryArticle
     {

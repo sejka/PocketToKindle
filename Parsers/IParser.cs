@@ -1,5 +1,4 @@
-﻿using PocketToKindle.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace PocketToKindle.Parsers
 {

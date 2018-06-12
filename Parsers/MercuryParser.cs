@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using PocketToKindle.Models;
 using System.Net.Http;
 using System.Threading.Tasks;
 

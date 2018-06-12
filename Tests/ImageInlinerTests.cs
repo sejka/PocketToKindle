@@ -1,5 +1,4 @@
-﻿using PocketToKindle.Models;
-using PocketToKindle.Parsers;
+﻿using PocketToKindle.Parsers;
 using Xunit;
 
 namespace Tests

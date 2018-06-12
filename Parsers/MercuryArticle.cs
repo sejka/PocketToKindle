@@ -42,9 +42,9 @@ namespace PocketToKindle.Parsers
         public int RenderedPages { get; set; }
 
         //todo find other place for this method
-        public void AddReportLink(string domain, string functionKey)
+        public void AddReportLink(string domain)
         {
-            Content = string.Concat(Content, $"<br><a href=\"http://{domain}/api/report?url={Url}&code={functionKey}\">Report this article as incorrectly parsed</a>");
+            Content = string.Concat(Content, $"<br><a href=\"http://{domain}/api/report?url={Url}\">Report this article as incorrectly parsed</a>");
         }
     }
 }

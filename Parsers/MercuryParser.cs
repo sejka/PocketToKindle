@@ -8,7 +8,6 @@ namespace PocketToKindle.Parsers
     {
         private readonly HttpClient httpClient = new HttpClient();
         private readonly string _domain;
-        private readonly string _functionKey;
         private const string apiUrl = "https://mercury.postlight.com/parser?url=";
 
         public MercuryParser(string apiKey, string domain)
@@ -26,7 +25,7 @@ namespace PocketToKindle.Parsers
 
             //todo move this other place
             article = await ImageInliner.InlineImagesAsync(article);
-            article.AddReportLink(_domain, _functionKey);
+            article.AddReportLink(_domain);
 
             return article;
         }

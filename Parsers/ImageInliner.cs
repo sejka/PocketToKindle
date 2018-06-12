@@ -63,9 +63,15 @@ namespace PocketToKindle.Parsers
 
         private async static Task<string> GetImageAsBase64Async(string url)
         {
-            var bytes = await _httpClient.GetByteArrayAsync(url);
-
-            return Convert.ToBase64String(bytes);
+            try
+            {
+                var bytes = await _httpClient.GetByteArrayAsync(url);
+                return Convert.ToBase64String(bytes);
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
     }
 }

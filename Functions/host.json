@@ -1,3 +1,4 @@
 {
-  "batchSize": 32
+  "batchSize": 32,
+  "maxDequeueCount": 1
 }

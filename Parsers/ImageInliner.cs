@@ -52,6 +52,12 @@ namespace PocketToKindle.Parsers
             }
 
             string imageAsBase64 = await GetImageAsBase64Async(imageUrl);
+
+            if (imageAsBase64 == string.Empty)
+            {
+                image.Remove();
+            }
+
             image.Attributes["src"].Value = $"data:image/jpeg;base64,{imageAsBase64}";
         }
 

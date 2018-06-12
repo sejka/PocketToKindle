@@ -53,5 +53,18 @@ namespace Tests
 
             Assert.Equal("asdasdasdasdasdasdasdasd", sampleArticle.Content);
         }
+
+        [Fact]
+        public async void DoesntThrowAndRemovesImgTagWhenImagesHaveIncorrectUrl()
+        {
+            var sampleArticle = new MercuryArticle
+            {
+                Content = $"<img src=\"http://incorrect.url/image.gpj\">"
+            };
+
+            await ImageInliner.InlineImagesAsync(sampleArticle);
+
+            Assert.Equal(string.Empty, sampleArticle.Content);
+        }
     }
 }

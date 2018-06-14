@@ -3,8 +3,8 @@ using Core.EmailSenders;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
+using Parsers;
 using PocketSharp;
-using PocketToKindle.Parsers;
 using System.Threading.Tasks;
 
 namespace Functions

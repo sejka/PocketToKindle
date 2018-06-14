@@ -1,7 +1,6 @@
 ﻿using Core.EmailSenders;
 using PocketSharp;
 using PocketSharp.Models;
-using PocketToKindle.Parsers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,7 +44,10 @@ namespace Core
             {
                 var parsedArticle = await _parser.ParseAsync(articleUrl);
 
-                await _emailSender.SendEmailWithHtmlAttachmentAsync(user.KindleEmail, parsedArticle.Title, $@"<html><body>{parsedArticle.Content}</body></html>");
+                await _emailSender.SendEmailWithHtmlAttachmentAsync(
+                    user.KindleEmail,
+                    parsedArticle.Title,
+                    parsedArticle.Content);
             }
         }
 

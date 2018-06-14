@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using Core;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -7,13 +8,13 @@ using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("Tests")]
 
-namespace PocketToKindle.Parsers
+namespace Parsers
 {
     internal static class ImageInliner
     {
         private static HttpClient _httpClient = new HttpClient();
 
-        public static async Task<MercuryArticle> InlineImagesAsync(MercuryArticle article)
+        public static async Task<IArticle> InlineImagesAsync(IArticle article)
         {
             var articleContent = new HtmlDocument();
             articleContent.LoadHtml(article.Content);

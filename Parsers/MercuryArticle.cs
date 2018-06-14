@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Core;
+using Newtonsoft.Json;
 using System;
 
-namespace PocketToKindle.Parsers
+namespace Parsers
 {
-    public class MercuryArticle
+    public class MercuryArticle : IArticle
     {
         [JsonProperty("title")]
         public string Title { get; set; }

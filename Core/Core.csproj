@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Parsers\Parsers.csproj" />
     <ProjectReference Include="..\PocketSharp\PocketSharpNetStandard\PocketSharpNetStandard.csproj" />
   </ItemGroup>
 

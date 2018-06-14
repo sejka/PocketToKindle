@@ -1,7 +1,8 @@
-<html>
+﻿<html>
 
 <head>
     <title>Pocket to kindle</title>
+    <meta charset="UTF-8">
     <style>
         .wrapper {
             font-family: Tahoma;
@@ -39,21 +40,24 @@
         <h2>Register</h2>
         <ol>
             <li>
-                First, <button id="authorize-pocket-button">Authorize Pocket</button>
+                First,
+                <button id="authorize-pocket-button">Authorize Pocket</button>
             </li>
             <li>
                 Next go to
-                <a href="https://www.amazon.com/hz/mycd/myx#/home/settings/payment">Kindle email allowed senders</a> under "Personal Document Settings" and add "kindle@mail.sejkapp.pl" as approved email.
+                <a href="https://www.amazon.com/hz/mycd/myx#/home/settings/payment">Kindle email allowed senders</a> under "Personal Document Settings" and add "kindle@mail.sejkapp.pl" as approved
+                email.
             </li>
             <li>
                 Finally, find your kindle email in "Your Devices" tab and share it below:
                 <br/>
                 <input id="email-input" type="text">
                 <br />
-                <button id="submit-button">Submit</button>
+                <button id="submit-button" disabled>Submit</button>
             </li>
             <li>
-                That's it! If everything went fine you should receive an welcoming email on your kindle. Next time you add something to your pocket it should arrive within 15 minutes on your kindle. Enjoy!
+                That's it! If everything went fine you should receive an welcoming email on your kindle. Next time you add something to your
+                pocket it should arrive within 15 minutes on your kindle. Enjoy!
             </li>
         </ol>
         <div class="footer">
@@ -66,6 +70,10 @@
         var submitButton = document.getElementById('submit-button');
         submitButton.onclick = register;
         authorizeButton.onclick = authroizeOnPocket;
+
+        if (getCookie("pocketkey")) {
+            submitButton.disabled = false;
+        }
 
         function register() {
             var xhReq = new XMLHttpRequest();
@@ -87,16 +95,19 @@
             alert(serverResponse);
         }
 
-        function authroizeOnPocket() {
-            var xhReq = new XMLHttpRequest();
-            xhReq.open("GET",
-                "https://pocket-to-kindle.azurewebsites.net/api/GetRegistrationInfo",
-                false);
-            xhReq.send(null);
-            var serverResponse = JSON.parse(xhReq.responseText);
-            document.cookie = serverResponse.RequestCode;
+        async function authroizeOnPocket() {
+            url = "https://pocket-to-kindle.azurewebsites.net/api/GetRegistrationInfo";
+            let response = await fetch(url);
+            response = await response.json();
+            document.cookie = `pocketkey=${response.RequestCode}`;
             window.location.href = serverResponse.RegistrationLink;
         }
+
+        function getCookie (name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        };
     </script>
 </body>
 

@@ -1,5 +1,5 @@
 using Core;
-using PocketToKindle.Parsers;
+using Parsers;
 using Xunit;
 
 namespace Tests

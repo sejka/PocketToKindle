@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Core;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace PocketToKindle.Parsers
+namespace Parsers
 {
     public class MercuryParser : IParser
     {
@@ -16,16 +17,17 @@ namespace PocketToKindle.Parsers
             httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
         }
 
-        public async Task<MercuryArticle> ParseAsync(string url)
+        public async Task<IArticle> ParseAsync(string url)
         {
             string requestUrl = string.Concat(apiUrl, url);
             var responseMessage = await httpClient.GetStringAsync(requestUrl);
 
-            var article = JsonConvert.DeserializeObject<MercuryArticle>(responseMessage);
+            IArticle article = JsonConvert.DeserializeObject<MercuryArticle>(responseMessage);
 
             //todo move this other place
             article = await ImageInliner.InlineImagesAsync(article);
             article.AddReportLink(_domain);
+            article.Content = $"<html><body><h1>{article.Title}</h1><h3>{article.DatePublished}</h3>{article.Content}</body></html>";
 
             return article;
         }

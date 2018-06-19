@@ -17,7 +17,6 @@ namespace Core
 
         public async Task EnqueueAllUsersAsync()
         {
-            var processedUrls = new List<string>();
             var processTasks = new List<Task>();
 
             do

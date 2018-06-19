@@ -100,7 +100,7 @@
             let response = await fetch(url);
             response = await response.json();
             document.cookie = `pocketkey=${response.RequestCode}`;
-            window.location.href = serverResponse.RegistrationLink;
+            window.location.href = response.RegistrationLink;
         }
 
         function getCookie (name) {

@@ -84,7 +84,7 @@
 
             var kindleEmail = document.getElementById('email-input').value;
             var url = new URL(window.location.href);
-            var requestCode = document.cookie;
+            var requestCode = getCookie("pocketkey");
 
             var data = JSON.stringify({
                 "kindleEmail": kindleEmail,

@@ -48,7 +48,7 @@ namespace Core
                 {
                     await _emailSender.SendEmailWithHtmlAttachmentAsync(
                         user.KindleEmail,
-                        parsedArticle.Title,
+                        parsedArticle.Title.Replace(".", ""),
                         parsedArticle.Content);
                 }
             }

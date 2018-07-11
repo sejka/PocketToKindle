@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
 using Parsers;
 using PocketSharp;
+using System;
 using System.Threading.Tasks;
 
 namespace Functions
@@ -25,10 +26,19 @@ namespace Functions
                 new MercuryParser(config.MercuryApiKey, config.ServiceDomain),
                 new MailgunSender(config.MailGunSenderOptions.ApiKey, config.MailGunSenderOptions.HostEmail));
 
-            await sender.SendArticlesAsync(user);
-
-            var userService = UserService.BuildUserService(config.StorageConnectionString);
-            await userService.UpdateLastProcessingDateAsync(user);
+            try
+            {
+                await sender.SendArticlesAsync(user);
+            }
+            catch (Exception ex)
+            {
+                log.Error($"Processing of user {user} failed at one of the articles", ex);
+            }
+            finally
+            {
+                var userService = UserService.BuildUserService(config.StorageConnectionString);
+                await userService.UpdateLastProcessingDateAsync(user);
+            }
 
             log.Info($"C# Queue trigger function processed: {userJson}");
         }

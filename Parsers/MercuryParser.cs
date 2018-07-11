@@ -20,7 +20,16 @@ namespace Parsers
         public async Task<IArticle> ParseAsync(string url)
         {
             string requestUrl = string.Concat(apiUrl, url);
-            var responseMessage = await httpClient.GetStringAsync(requestUrl);
+            string responseMessage;
+
+            try
+            {
+                responseMessage = await httpClient.GetStringAsync(requestUrl);
+            }
+            catch (HttpRequestException)
+            {
+                return null;
+            }
 
             IArticle article = JsonConvert.DeserializeObject<MercuryArticle>(responseMessage);
 

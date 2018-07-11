@@ -18,5 +18,15 @@ namespace Tests
 
             Assert.Equal("The Artificial Intelligence Revolution: Part 1", article.Title);
         }
+
+        [Fact]
+        public async void DoesNotThrowOnInvalidArticleUrl()
+        {
+            string testUrl = "http://fake.website.com/article";
+
+            MercuryParser mercuryParser = new MercuryParser(_config.MercuryApiKey, _config.ServiceDomain);
+
+            var article = await mercuryParser.ParseAsync(testUrl);
+        }
     }
 }

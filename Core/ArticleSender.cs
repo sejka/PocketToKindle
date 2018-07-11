@@ -44,10 +44,13 @@ namespace Core
             {
                 var parsedArticle = await _parser.ParseAsync(articleUrl);
 
-                await _emailSender.SendEmailWithHtmlAttachmentAsync(
-                    user.KindleEmail,
-                    parsedArticle.Title,
-                    parsedArticle.Content);
+                if (parsedArticle != null)
+                {
+                    await _emailSender.SendEmailWithHtmlAttachmentAsync(
+                        user.KindleEmail,
+                        parsedArticle.Title,
+                        parsedArticle.Content);
+                }
             }
         }
 

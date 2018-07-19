@@ -28,7 +28,7 @@ namespace Functions.Web
             }
 
             var userService = UserService.BuildUserService(_config.StorageConnectionString);
-            var user = await userService.FindUserWithHash(userHash);
+            var user = await userService.FindUserWithToken(userHash);
 
             if (user == null)
             {

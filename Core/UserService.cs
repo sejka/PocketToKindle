@@ -17,7 +17,7 @@ namespace Core
 
         Task UpdateLastProcessingDateAsync(User user);
 
-        Task<User> FindUserWithHash(string userHash);
+        Task<User> FindUserWithToken(string token);
     }
 
     //todo should i test this?
@@ -32,13 +32,12 @@ namespace Core
             _userTable = userTable;
         }
 
-        public async Task<User> FindUserWithHash(string userHash)
+        public async Task<User> FindUserWithToken(string token)
         {
-            //todo fill where statement
-            var query = new TableQuery<User>().Where("");
+            var query = new TableQuery<User>().Where(TableQuery.GenerateFilterCondition("Token", QueryComparisons.Equal, token));
             var queryResult = await _userTable.ExecuteQuerySegmentedAsync(query, _continuationToken);
 
-            return queryResult.Results.Single();
+            return queryResult.Results.FirstOrDefault();
         }
 
         public async Task<IEnumerable<User>> GetUserBatch()

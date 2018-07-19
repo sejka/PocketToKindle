@@ -44,7 +44,6 @@ namespace Functions.Web
                     <p>We'll investigate {reportedUrlRow.Url} soon.</p>
                 </body>
                 </html>");
-            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/html; charset=UTF-8");
             return response;
         }
 

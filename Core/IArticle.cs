@@ -8,7 +8,5 @@ namespace Core
         DateTime? DatePublished { get; set; }
         string Title { get; set; }
         string Url { get; set; }
-
-        void AddReportLink(string domain);
     }
 }

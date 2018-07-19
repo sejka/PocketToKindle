@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Core
@@ -15,6 +16,8 @@ namespace Core
         Task AddUserAsync(User user);
 
         Task UpdateLastProcessingDateAsync(User user);
+
+        Task<User> FindUserWithHash(string userHash);
     }
 
     //todo should i test this?
@@ -27,6 +30,15 @@ namespace Core
         public UserService(CloudTable userTable)
         {
             _userTable = userTable;
+        }
+
+        public async Task<User> FindUserWithHash(string userHash)
+        {
+            //todo fill where statement
+            var query = new TableQuery<User>().Where("");
+            var queryResult = await _userTable.ExecuteQuerySegmentedAsync(query, _continuationToken);
+
+            return queryResult.Results.Single();
         }
 
         public async Task<IEnumerable<User>> GetUserBatch()
@@ -42,7 +54,7 @@ namespace Core
             return _continuationToken;
         }
 
-        public static UserService BuildUserService(string storageConnectionString)
+        public static IUserService BuildUserService(string storageConnectionString)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();

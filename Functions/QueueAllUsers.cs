@@ -19,7 +19,7 @@ namespace Functions
         {
             _config = new ConfigBuilder(context.FunctionAppDirectory).Build();
 
-            UserService userService = UserService.BuildUserService(_config.StorageConnectionString);
+            var userService = UserService.BuildUserService(_config.StorageConnectionString);
 
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_config.StorageConnectionString);
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();

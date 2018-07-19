@@ -33,7 +33,17 @@ namespace Functions.Web
             log.Info($"Reported url: {reportedUrlRow.Url}");
 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent($"<html><body><h1>Thank you for submiting that article!</h1><p>We'll investigate {reportedUrlRow.Url} soon.</p></body></html>");
+            response.Content = new StringContent($@"
+                <html>
+                <head>
+                    <meta charset=""UTF-8"">
+                    <title>Article reported</title>
+                </head>
+                <body>
+                    <h1>Thank you for submiting that article!</h1>
+                    <p>We'll investigate {reportedUrlRow.Url} soon.</p>
+                </body>
+                </html>");
             response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/html; charset=UTF-8");
             return response;
         }

@@ -8,12 +8,10 @@ namespace Parsers
     public class MercuryParser : IParser
     {
         private readonly HttpClient httpClient = new HttpClient();
-        private readonly string _domain;
         private const string apiUrl = "https://mercury.postlight.com/parser?url=";
 
-        public MercuryParser(string apiKey, string domain)
+        public MercuryParser(string apiKey)
         {
-            _domain = domain;
             httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
         }
 
@@ -35,7 +33,6 @@ namespace Parsers
 
             //todo move this other place
             article = await ImageInliner.InlineImagesAsync(article);
-            article.AddReportLink(_domain);
             article.Content = $"<html><body><h1>{article.Title}</h1><h3>{article.DatePublished}</h3>{article.Content}</body></html>";
 
             return article;

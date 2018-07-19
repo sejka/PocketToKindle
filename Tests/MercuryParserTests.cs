@@ -12,7 +12,7 @@ namespace Tests
         public async void Parser_ParsesCorrectlySampleArticle()
         {
             string testUrl = "https://waitbutwhy.com/2015/01/artificial-intelligence-revolution-1.html";
-            MercuryParser mercuryParser = new MercuryParser(_config.MercuryApiKey, _config.ServiceDomain);
+            MercuryParser mercuryParser = new MercuryParser(_config.MercuryApiKey);
 
             var article = await mercuryParser.ParseAsync(testUrl);
 
@@ -24,7 +24,7 @@ namespace Tests
         {
             string testUrl = "http://fake.website.com/article";
 
-            MercuryParser mercuryParser = new MercuryParser(_config.MercuryApiKey, _config.ServiceDomain);
+            MercuryParser mercuryParser = new MercuryParser(_config.MercuryApiKey);
 
             var article = await mercuryParser.ParseAsync(testUrl);
         }

@@ -53,13 +53,14 @@ namespace Functions.Web
                 AccessCode = pocketUser.Code,
                 PocketUsername = pocketUser.Username,
                 KindleEmail = request.KindleEmail,
-                LastProcessingDate = DateTime.UtcNow
+                LastProcessingDate = DateTime.UtcNow,
+                Token = Guid.NewGuid().ToString()
             });
 
             await SendWelcomeEmail(_emailSender, request.KindleEmail);
             log.Info($"Successfully registered user: {request.KindleEmail}.");
 
-            return new OkObjectResult("yasss");
+            return new OkObjectResult("Registration successful");
         }
 
         private static bool IsValidEmail(string email)

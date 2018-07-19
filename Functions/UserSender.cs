@@ -23,8 +23,9 @@ namespace Functions
             var user = JsonConvert.DeserializeObject<User>(userJson);
             var sender = new ArticleSender(
                 new PocketClient(config.PocketConsumerKey, user.AccessCode),
-                new MercuryParser(config.MercuryApiKey, config.ServiceDomain),
-                new MailgunSender(config.MailGunSenderOptions.ApiKey, config.MailGunSenderOptions.HostEmail));
+                new MercuryParser(config.MercuryApiKey),
+                new MailgunSender(config.MailGunSenderOptions.ApiKey, config.MailGunSenderOptions.HostEmail),
+                config.ServiceDomain);
 
             try
             {

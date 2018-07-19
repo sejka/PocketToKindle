@@ -16,7 +16,7 @@ namespace EmailSenderCLI
         private static async Task Main(string[] args)
         {
             var config = new ConfigBuilder(".").Build();
-            IParser parser = new MercuryParser(config.MercuryApiKey, config.ServiceDomain);
+            IParser parser = new MercuryParser(config.MercuryApiKey);
             var emailSender = new MailgunSender(config.MailGunSenderOptions.ApiKey, config.MailGunSenderOptions.HostEmail);
             var pocketClientMock = new Mock<IPocketClient>();
 
@@ -40,8 +40,8 @@ namespace EmailSenderCLI
                     )
                 );
 
-            var sender = new ArticleSender(pocketClientMock.Object, parser, emailSender);
-            await sender.SendArticlesAsync(new User { KindleEmail = "teherty@gmail.com" });
+            var sender = new ArticleSender(pocketClientMock.Object, parser, emailSender, config.ServiceDomain);
+            await sender.SendArticlesAsync(new User { KindleEmail = "teherty@gmail.com", Token = "testtoken" });
         }
     }
 }

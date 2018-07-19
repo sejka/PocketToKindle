@@ -1,8 +1,8 @@
 ﻿{
-  "MERCURY_API_KEY": "LABbghZP1on6CeROa7IYLwf3JS68sMRGW7WTGBjw",
+  "MERCURY_API_KEY": "",
   "STORAGE_CONNECTION_STRING": "UseDevelopmentStorage=true",
-  "POCKET_CONSUMER_KEY": "69446-12d993cc0bb97b398a1de198",
-  "POCKET_REDIRECT_URI": "http://sejkapp.pl/",
+  "POCKET_CONSUMER_KEY": "",
+  "POCKET_REDIRECT_URI": "",
   "SERVICE_DOMAIN": "",
   "EMAIL": {
     "HOST": "",
@@ -11,7 +11,7 @@
     "PASSWORD": ""
   },
   "MAILGUN": {
-    "APIKEY": "key-85d5e32eba9a2a8970efb9eba4742f3d",
-    "HOSTEMAIL": "kindle@mail.sejkapp.pl"
+    "APIKEY": "",
+    "HOSTEMAIL": ""
   }
 }

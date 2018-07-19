@@ -20,7 +20,12 @@ namespace Functions.Web
             Config _config = new ConfigBuilder(context.FunctionAppDirectory).Build();
 
             string articleId = req.Query["articleId"];
-            string userHash = req.Query["userHash"];
+            string userHash = req.Query["token"];
+
+            if (articleId == null || userHash == null)
+            {
+                return new BadRequestObjectResult("no token or articleId");
+            }
 
             var userService = UserService.BuildUserService(_config.StorageConnectionString);
             var user = await userService.FindUserWithHash(userHash);

@@ -4,10 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
-using Newtonsoft.Json;
 using PocketSharp;
-using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Functions.Web
@@ -23,13 +20,29 @@ namespace Functions.Web
             Config _config = new ConfigBuilder(context.FunctionAppDirectory).Build();
 
             string articleId = req.Query["articleId"];
-            string userHash = req.Query["userHash"];
+            string userHash = req.Query["token"];
+
+            if (articleId == null || userHash == null)
+            {
+                return new BadRequestObjectResult("no token or articleId");
+            }
 
             var userService = UserService.BuildUserService(_config.StorageConnectionString);
             var user = await userService.FindUserWithHash(userHash);
 
+            if (user == null)
+            {
+                return new BadRequestObjectResult("invalid user hash");
+            }
+
             var pocketClient = new PocketClient(_config.PocketConsumerKey, user.AccessCode);
             var article = await pocketClient.Get(articleId);
+
+            if (article == null)
+            {
+                return new BadRequestObjectResult("invalid article id");
+            }
+
             var success = await pocketClient.Archive(article);
 
             //todo have html results

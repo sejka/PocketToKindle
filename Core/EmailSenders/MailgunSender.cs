@@ -34,7 +34,7 @@ namespace Core.EmailSenders
                 throw new ArgumentException("invalid hostemail", nameof(domainName));
             }
 
-            _httpClient.BaseAddress = new Uri($"https://api.mailgun.net/v3/{domainName}/messages");
+            _httpClient.BaseAddress = new Uri($"https://api.eu.mailgun.net/v3/{domainName}/messages");
         }
 
         public async Task SendEmailWithHtmlAttachmentAsync(string email, string subject, string htmlContent)

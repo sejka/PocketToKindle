@@ -66,7 +66,7 @@ namespace Core.EmailSenders
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Failed to send email: {email}, {subject}, {htmlContent}");
+                throw new Exception($"Failed to send email: {email}, {subject}, {response.Content}");
             }
         }
     }

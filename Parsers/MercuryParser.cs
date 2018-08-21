@@ -1,5 +1,6 @@
 ﻿using Core;
 using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -17,6 +18,11 @@ namespace Parsers
 
         public async Task<IArticle> ParseAsync(string url)
         {
+            if (string.IsNullOrEmpty(url))
+            {
+                throw new ArgumentException("Url cannot be null or empty");
+            }
+
             string requestUrl = string.Concat(apiUrl, url);
             string responseMessage;
 
@@ -33,7 +39,6 @@ namespace Parsers
 
             //todo move this other place
             article = await ImageInliner.InlineImagesAsync(article);
-            article.Content = $"<html><body><h1>{article.Title}</h1><h3>{article.DatePublished}</h3>{article.Content}</body></html>";
 
             return article;
         }

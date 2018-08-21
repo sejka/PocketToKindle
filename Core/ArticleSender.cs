@@ -1,7 +1,6 @@
 ﻿using Core.EmailSenders;
 using PocketSharp;
 using PocketSharp.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,7 +34,8 @@ namespace Core
 
         public async Task SendArticlesAsync(User user)
         {
-            var allArticles = (await GetLastArticlesSinceLastProcessingDate(user, ArticlesAmount)).Where(x => x.Uri != null);
+            var allArticles = (await GetLastArticlesSinceLastProcessingDate(user, ArticlesAmount))
+                                .Where(x => !string.IsNullOrEmpty(x.Uri.ToString()));
 
             if (!allArticles.Any())
             {
@@ -57,12 +57,14 @@ namespace Core
             }
         }
 
+        //todo migrate to razor
         private void AddInterfaceLinks(IArticle parsedArticle, string id, string token)
         {
-            var interfaceLinksHtml = $"<br><a href=\"https://{_serviceDomain}/api/report?url={parsedArticle.Url}\">Report</a><br>" +
-                $"<a href=\"https://{_serviceDomain}/api/archive?articleId={id}&token={token}\">Archive</a><br>" +
-                $"<a href=\"https://{_serviceDomain}/api/star?articleId={id}&token={token}\">Star</a><br>";
-            parsedArticle.Content = string.Concat(parsedArticle.Content, interfaceLinksHtml);
+            var interfaceLinksHtml = string.Join("", $"<br><a href=\"https://{_serviceDomain}/api/report?url={parsedArticle.Url}\">Report</a><br>",
+                $"<a href=\"https://{_serviceDomain}/api/archive?articleId={id}&token={token}\">Archive</a><br>",
+                $"<a href=\"https://{_serviceDomain}/api/star?articleId={id}&token={token}\">Star</a><br>");
+
+            parsedArticle.Content = $"<html><body><h1>{parsedArticle.Title}</h1><h3>{parsedArticle.DatePublished}</h3>{parsedArticle.Content}{interfaceLinksHtml}</body></html>";
         }
 
         private Task<IEnumerable<PocketItem>> GetLastArticlesSinceLastProcessingDate(User user, int articlesAmount)
@@ -70,6 +72,7 @@ namespace Core
             _pocketClient.AccessCode = user.AccessCode;
 
             return _pocketClient.Get(
+                state: State.unread,
                 contentType: ContentType.article,
                 sort: Sort.newest,
                 since: user.LastProcessingDate,

@@ -57,7 +57,7 @@ namespace Tests
             var userServiceMock = new Mock<IUserService>();
             userServiceMock.SetupSequence(x => x.GetContinuationToken())
                 .Returns(new TableContinuationToken())
-                .Returns(null);
+                .Returns(() => null);
             userServiceMock.SetupSequence(x => x.GetUserBatch())
                 .ReturnsAsync(userMock)
                 .ReturnsAsync(userMock2);

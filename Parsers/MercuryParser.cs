@@ -8,7 +8,7 @@ namespace Parsers
 {
     public class MercuryParser : IParser
     {
-        private readonly HttpClient httpClient = new HttpClient();
+        private static readonly HttpClient httpClient = new HttpClient();
         private const string apiUrl = "https://mercury.postlight.com/parser?url=";
 
         public MercuryParser(string apiKey)

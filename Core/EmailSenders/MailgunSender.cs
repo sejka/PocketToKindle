@@ -10,7 +10,7 @@ namespace Core.EmailSenders
     public class MailgunSender : IEmailSender
     {
         private string _hostEmail;
-        private HttpClient _httpClient = new HttpClient();
+        private static readonly HttpClient _httpClient = new HttpClient();
 
         public MailgunSender(string apiKey, string hostEmail)
         {

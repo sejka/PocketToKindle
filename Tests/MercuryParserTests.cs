@@ -7,7 +7,7 @@ namespace Tests
 {
     public class MercuryParserTests
     {
-        private Config _config = new ConfigBuilder(".").Build();
+        private readonly Config _config = new ConfigBuilder(".").Build();
 
         [Fact]
         public async void ParsesCorrectlySampleArticle()

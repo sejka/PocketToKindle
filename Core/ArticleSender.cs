@@ -15,10 +15,10 @@ namespace Core
     public class ArticleSender : ISender
     {
         private const int ArticlesAmount = 10;
-        private IEmailSender _emailSender;
-        private string _serviceDomain;
-        private IParser _parser;
-        private IPocketClient _pocketClient;
+        private readonly IEmailSender _emailSender;
+        private readonly string _serviceDomain;
+        private readonly IParser _parser;
+        private readonly IPocketClient _pocketClient;
 
         public ArticleSender(
             IPocketClient pocketClient,

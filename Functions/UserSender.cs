@@ -1,7 +1,7 @@
 using Core;
 using Core.EmailSenders;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Parsers;
 using PocketSharp;
@@ -15,7 +15,7 @@ namespace Functions
         [FunctionName("UserSender")]
         public static async Task Run(
             [QueueTrigger("users-to-process", Connection = "")]string userJson,
-            TraceWriter log,
+            ILogger log,
             ExecutionContext executionContext)
         {
             var config = new ConfigBuilder(executionContext.FunctionAppDirectory).Build();
@@ -33,7 +33,7 @@ namespace Functions
             }
             catch (Exception ex)
             {
-                log.Error($"Processing of user {user} failed at one of the articles", ex);
+                log.LogError($"Processing of user {user} failed at one of the articles", ex);
             }
             finally
             {
@@ -41,7 +41,7 @@ namespace Functions
                 await userService.UpdateLastProcessingDateAsync(user);
             }
 
-            log.Info($"C# Queue trigger function processed: {userJson}");
+            log.LogInformation($"C# Queue trigger function processed: {userJson}");
         }
     }
 }

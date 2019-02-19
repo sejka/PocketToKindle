@@ -1,6 +1,5 @@
 using Core;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Newtonsoft.Json;
@@ -14,7 +13,6 @@ namespace Functions
 
         [FunctionName("QueueAllUsers")]
         public static async Task Run([TimerTrigger("0 */15 * * * *")]TimerInfo myTimer,
-            TraceWriter log,
             ExecutionContext context)
         {
             _config = new ConfigBuilder(context.FunctionAppDirectory).Build();

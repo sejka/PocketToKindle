@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PocketSharp;
 using PocketSharp.Models;
@@ -19,7 +19,7 @@ namespace Functions.Web
         [FunctionName("Register")]
         public static async Task<IActionResult> RunAsync(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]HttpRequest req,
-            TraceWriter log,
+            ILogger log,
             ExecutionContext context)
         {
             var _config = new ConfigBuilder(context.FunctionAppDirectory).Build();
@@ -31,7 +31,7 @@ namespace Functions.Web
 
             if (!IsValidEmail(request.KindleEmail))
             {
-                log.Error($"Not valid email: {request.KindleEmail}.");
+                log.LogError($"Not valid email: {request.KindleEmail}.");
                 return new BadRequestObjectResult("email provided is not valid");
             }
 
@@ -43,7 +43,7 @@ namespace Functions.Web
             }
             catch (PocketException pocketException)
             {
-                log.Error($"Something went wrong: {pocketException.Message}.");
+                log.LogError($"Something went wrong: {pocketException.Message}.");
                 return new BadRequestObjectResult(pocketException.Message);
             }
 
@@ -58,7 +58,7 @@ namespace Functions.Web
             });
 
             await SendWelcomeEmail(_emailSender, request.KindleEmail);
-            log.Info($"Successfully registered user: {request.KindleEmail}.");
+            log.LogInformation($"Successfully registered user: {request.KindleEmail}.");
 
             return new OkObjectResult("Registration successful");
         }

@@ -2,7 +2,7 @@ using Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
@@ -15,9 +15,9 @@ namespace Functions.Web
     public static class Report
     {
         [FunctionName("Report")]
-        public async static Task<HttpResponseMessage> Run(
+        public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequest req,
-            TraceWriter log,
+            ILogger log,
             ExecutionContext context)
         {
             var reportedUrlRow = new ReportedUrl
@@ -30,7 +30,7 @@ namespace Functions.Web
             Config config = new ConfigBuilder(context.FunctionAppDirectory).Build();
 
             await SaveReportedUrl(reportedUrlRow, config.StorageConnectionString);
-            log.Info($"Reported url: {reportedUrlRow.Url}");
+            log.LogInformation($"Reported url: {reportedUrlRow.Url}");
 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent($@"

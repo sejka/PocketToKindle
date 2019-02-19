@@ -13,7 +13,7 @@ namespace EmailSenderCLI
 {
     internal static class Program
     {
-        private static async Task Main(string[] args)
+        private static async Task Main()
         {
             var config = new ConfigBuilder(".").Build();
             IParser parser = new MercuryParser(config.MercuryApiKey);

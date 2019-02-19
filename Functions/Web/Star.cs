@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs.Host;
 using PocketSharp;
 using System.Threading.Tasks;
 
@@ -14,7 +13,6 @@ namespace Functions.Web
         [FunctionName("Star")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req,
-            TraceWriter log,
             ExecutionContext context)
         {
             Config _config = new ConfigBuilder(context.FunctionAppDirectory).Build();

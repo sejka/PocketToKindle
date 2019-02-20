@@ -15,9 +15,18 @@
             margin-top: 1em;
         }
 
-            .footer a {
-                color: grey;
-            }
+        .footer a {
+            color: grey;
+        }
+
+        .input-container {
+            padding: 1em 1em 1em 0;
+            max-width: 20em;
+        }
+
+        input {
+            width: 100%;
+        }
 
         button {
             padding: 0.5em 2em;
@@ -55,8 +64,9 @@
             <li>
                 Finally, find your kindle email in "Your Devices" tab and share it below:
                 <br />
-                <input id="email-input" type="text">
-                <br />
+                <div class="input-container">
+                    <input id="email-input" type="email">
+                </div>
                 <button id="submit-button" disabled>Submit</button>
             </li>
             <li>
@@ -107,7 +117,6 @@
             xhReq.setRequestHeader("Content-Type", "application/json");
 
             var kindleEmail = document.getElementById('email-input').value;
-            var url = new URL(window.location.href);
             var requestCode = getCookie("pocketkey");
 
             var data = JSON.stringify({
@@ -133,4 +142,5 @@
             if (parts.length == 2) return parts.pop().split(";").shift();
         };
     </script>
+</body>
 </html>

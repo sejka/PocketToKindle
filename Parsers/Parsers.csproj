@@ -17,4 +17,10 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="ReadSharp">
+      <HintPath>..\ReadSharp\ReadSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

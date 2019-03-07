@@ -13,9 +13,9 @@ namespace Tests
         public async void ParsesCorrectlySampleArticle()
         {
             string testUrl = "https://waitbutwhy.com/2015/01/artificial-intelligence-revolution-1.html";
-            MercuryParser mercuryParser = new MercuryParser(_config.MercuryApiKey);
+            var readSharpParser = new ReadSharpParser();
 
-            var article = await mercuryParser.ParseAsync(testUrl);
+            var article = await readSharpParser.ParseAsync(testUrl);
 
             Assert.Equal("The Artificial Intelligence Revolution: Part 1", article.Title);
         }
@@ -25,9 +25,9 @@ namespace Tests
         {
             string testUrl = "http://fake.website.com/article";
 
-            MercuryParser mercuryParser = new MercuryParser(_config.MercuryApiKey);
+            var readSharpParser = new ReadSharpParser();
 
-            var article = await mercuryParser.ParseAsync(testUrl);
+            var article = await readSharpParser.ParseAsync(testUrl);
         }
 
         [Fact]
@@ -35,9 +35,9 @@ namespace Tests
         {
             string testUrl = "";
 
-            var mercuryParser = new MercuryParser(_config.MercuryApiKey);
+            var readSharpParser = new ReadSharpParser();
 
-            await Assert.ThrowsAsync<ArgumentException>(() => mercuryParser.ParseAsync(testUrl));
+            await Assert.ThrowsAsync<ArgumentException>(() => readSharpParser.ParseAsync(testUrl));
         }
     }
 }

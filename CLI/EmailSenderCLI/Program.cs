@@ -16,7 +16,7 @@ namespace EmailSenderCLI
         private static async Task Main()
         {
             var config = new ConfigBuilder(".").Build();
-            IParser parser = new MercuryParser(config.MercuryApiKey);
+            var parser = new ReadSharpParser();
             var emailSender = new MailgunSender(config.MailGunSenderOptions.ApiKey, config.MailGunSenderOptions.HostEmail);
             var pocketClientMock = new Mock<IPocketClient>();
 

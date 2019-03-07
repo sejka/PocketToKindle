@@ -11,7 +11,7 @@ namespace Tests
         [Fact]
         public async void InlinesArticlesImages()
         {
-            var sampleArticle = new MercuryArticle
+            var sampleArticle = new ReadSharpArticle
             {
                 Content = $"<img src=\"{SAMPLE_IMAGE_URL}\">asdasdasdasd<img src=\"{SAMPLE_IMAGE_URL}\">asdasdasdasd"
             };
@@ -24,7 +24,7 @@ namespace Tests
         [Fact]
         public async void DoesntChangeArticleWhenNoImagesDetected()
         {
-            var sampleArticle = new MercuryArticle
+            var sampleArticle = new ReadSharpArticle
             {
                 Content = "asdasdasdasdasdasdasdasd"
             };
@@ -37,7 +37,7 @@ namespace Tests
         [Fact]
         public async void DoesntThrowAndRemovesImgTagWhenImagesHaveIncorrectUrl()
         {
-            var sampleArticle = new MercuryArticle
+            var sampleArticle = new ReadSharpArticle
             {
                 Content = $"<img src=\"http://incorrect.url/image.gpj\">"
             };

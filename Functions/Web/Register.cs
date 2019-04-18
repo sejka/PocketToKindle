@@ -84,6 +84,7 @@ namespace Functions.Web
                         <h1>Thanks for registering in PocketToKindle!</h1>
                         From now on your newly added pocket articles should appear in kindle library.
                         If there's anything wrong with your article there should be a link at last page which will let me know about the issue.
+                        Also you can contact me on twitter @karolsejka.
                     </body>
                 </html>");
         }

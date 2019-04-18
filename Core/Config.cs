@@ -7,7 +7,6 @@ namespace Core
     public class Config
     {
         public string StorageConnectionString { get; set; }
-        public string MercuryApiKey { get; set; }
         public string PocketConsumerKey { get; set; }
         public string PocketRedirectUri { get; set; }
         public SmtpSenderOptions EmailSenderOptions { get; set; }
@@ -45,7 +44,6 @@ namespace Core
         {
             return new Config
             {
-                MercuryApiKey = configValuesProvider.Get("MERCURY_API_KEY"),
                 StorageConnectionString = configValuesProvider.Get("STORAGE_CONNECTION_STRING"),
                 PocketConsumerKey = configValuesProvider.Get("POCKET_CONSUMER_KEY"),
                 PocketRedirectUri = configValuesProvider.Get("POCKET_REDIRECT_URI"),
@@ -88,6 +86,7 @@ namespace Core
         {
             _config = new ConfigurationBuilder()
                 .AddJsonFile(Path.Combine(functionAppDirectory, "config.json"))
+                .AddUserSecrets<Config>()
                 .Build();
         }
 

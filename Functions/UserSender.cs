@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Parsers;
 using PocketSharp;
-using System;
 using System.Threading.Tasks;
 
 namespace Functions
@@ -27,19 +26,10 @@ namespace Functions
                 new MailgunSender(config.MailGunSenderOptions.ApiKey, config.MailGunSenderOptions.HostEmail),
                 config.ServiceDomain);
 
-            try
-            {
-                await sender.SendArticlesAsync(user);
-            }
-            catch (Exception ex)
-            {
-                log.LogError($"Processing of user {user} failed at one of the articles", ex);
-            }
-            finally
-            {
-                var userService = UserService.BuildUserService(config.StorageConnectionString);
-                await userService.UpdateLastProcessingDateAsync(user);
-            }
+            await sender.SendArticlesAsync(user);
+
+            var userService = UserService.BuildUserService(config.StorageConnectionString);
+            await userService.UpdateLastProcessingDateAsync(user);
 
             log.LogInformation($"C# Queue trigger function processed: {userJson}");
         }

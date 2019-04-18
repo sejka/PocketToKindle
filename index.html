@@ -116,7 +116,7 @@
                 false);
             xhReq.setRequestHeader("Content-Type", "application/json");
 
-            var kindleEmail = document.getElementById('email-input').value;
+            var kindleEmail = document.getElementById('email-input').value.trim();
             var requestCode = getCookie("pocketkey");
 
             var data = JSON.stringify({

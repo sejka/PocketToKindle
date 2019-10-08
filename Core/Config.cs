@@ -12,6 +12,7 @@ namespace Core
         public SmtpSenderOptions EmailSenderOptions { get; set; }
         public MailgunSenderOptions MailGunSenderOptions { get; set; }
         public string ServiceDomain { get; set; }
+        public string MercuryApiParserEndpoint { get; set; }
     }
 
     public class SmtpSenderOptions

@@ -12,7 +12,7 @@ namespace Core
         public SmtpSenderOptions EmailSenderOptions { get; set; }
         public MailgunSenderOptions MailGunSenderOptions { get; set; }
         public string ServiceDomain { get; set; }
-        public string MercuryApiParserEndpoint { get; set; }
+        public string MercuryParserApiEndpoint { get; set; }
     }
 
     public class SmtpSenderOptions
@@ -43,13 +43,13 @@ namespace Core
 
         public Config Build()
         {
-            return new Config
+            var config = new Config
             {
                 StorageConnectionString = configValuesProvider.Get("STORAGE_CONNECTION_STRING"),
                 PocketConsumerKey = configValuesProvider.Get("POCKET_CONSUMER_KEY"),
                 PocketRedirectUri = configValuesProvider.Get("POCKET_REDIRECT_URI"),
                 ServiceDomain = configValuesProvider.Get("SERVICE_DOMAIN"),
-
+                MercuryParserApiEndpoint = configValuesProvider.Get("MERCURY_PARSER_API_ENDPOINT"),
                 //EmailSenderOptions = new SmtpSenderOptions
                 //{
                 //    Host = configValuesProvider.Get("EMAIL:HOST"),
@@ -63,6 +63,8 @@ namespace Core
                     HostEmail = configValuesProvider.Get("MAILGUN:HOSTEMAIL")
                 }
             };
+
+            return config;
         }
     }
 

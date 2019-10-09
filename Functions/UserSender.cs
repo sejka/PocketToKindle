@@ -23,7 +23,7 @@ namespace Functions
             var sender = new ArticleSender(
                 new PocketClient(config.PocketConsumerKey, user.AccessCode),
                 new MercuryApiParser(config.MercuryParserApiEndpoint),
-                new MailgunSender(config.MailGunSenderOptions.ApiKey, config.MailGunSenderOptions.HostEmail),
+                new Core.EmailSenders.MailgunSender(config.Mailgun.ApiKey, config.Mailgun.HostEmail),
                 config.ServiceDomain);
 
             await sender.SendArticlesAsync(user);

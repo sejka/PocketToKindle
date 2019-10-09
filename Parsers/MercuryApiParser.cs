@@ -23,7 +23,9 @@ namespace Parsers
 
             if (result.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<MercuryArticle>(await result.Content.ReadAsStringAsync());
+                string json = await result.Content.ReadAsStringAsync();
+                var article = JsonConvert.DeserializeObject<MercuryArticle>(json);
+                return await ImageInliner.InlineImagesAsync(article);
             }
             else
             {

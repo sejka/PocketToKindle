@@ -23,7 +23,7 @@ namespace Functions.Web
             ExecutionContext context)
         {
             var _config = new ConfigBuilder(context.FunctionAppDirectory).Build();
-            var _emailSender = new Core.EmailSenders.MailgunSender(_config.Mailgun.ApiKey, _config.Mailgun.HostEmail);
+            var _emailSender = new MailgunSender(_config.MailgunApiKey, _config.MailgunHostEmail);
             var _client = new PocketClient(_config.PocketConsumerKey, callbackUri: _config.PocketRedirectUri);
 
             string requestBody = new StreamReader(req.Body).ReadToEnd();

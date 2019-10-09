@@ -8,15 +8,10 @@ namespace Core
         public string StorageConnectionString { get; set; }
         public string PocketConsumerKey { get; set; }
         public string PocketRedirectUri { get; set; }
-        public MailgunOptions Mailgun { get; set; } = new MailgunOptions();
+        public string MailgunApiKey { get; set; }
+        public string MailgunHostEmail { get; set; }
         public string ServiceDomain { get; set; }
         public string MercuryParserApiEndpoint { get; set; }
-    }
-
-    public class MailgunOptions
-    {
-        public string ApiKey { get; set; }
-        public string HostEmail { get; set; }
     }
 
     public class ConfigBuilder
@@ -34,7 +29,7 @@ namespace Core
             var config = new Config();
 
             var configRoot = configurationBuilder
-                .AddJsonFile(_jsonConfigPath, false)
+                .AddJsonFile(_jsonConfigPath)
                 .AddEnvironmentVariables()
                 .AddUserSecrets<Config>()
                 .Build();

@@ -4,6 +4,10 @@
     <title>Pocket to kindle</title>
     <meta charset="UTF-8">
     <style>
+        #authorize-checkmark {
+            visibility: hidden;
+        }
+
         .wrapper {
             font-family: Tahoma;
             max-width: 50em;
@@ -15,9 +19,9 @@
             margin-top: 1em;
         }
 
-        .footer a {
-            color: grey;
-        }
+            .footer a {
+                color: grey;
+            }
 
         .input-container {
             padding: 1em 1em 1em 0;
@@ -51,7 +55,7 @@
         <ol>
             <li>
                 First,
-                <button id="authorize-pocket-button">Authorize Pocket</button>
+                <button id="authorize-pocket-button">Authorize Pocket</button> <span id="authorize-checkmark">✅</span>
             </li>
             <li>
                 Next go to
@@ -101,12 +105,14 @@
     </div>
     <script type="text/javascript">
         var authorizeButton = document.getElementById('authorize-pocket-button');
+        var authorizeCheckMark = document.getElementById('authorize-checkmark');
         var submitButton = document.getElementById('submit-button');
         submitButton.onclick = register;
         authorizeButton.onclick = authroizeOnPocket;
 
         if (getCookie("pocketkey")) {
-            submitButton.disabled = false;
+            submitButton.disabled = true;
+            authorizeCheckMark.hidden = false;
         }
 
         function register() {
@@ -129,6 +135,7 @@
         }
 
         async function authroizeOnPocket() {
+            authorizeButton.disabled = true;
             url = "https://pocket-to-kindle.azurewebsites.net/api/GetRegistrationInfo";
             let response = await fetch(url);
             response = await response.json();

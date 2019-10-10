@@ -68,13 +68,13 @@ namespace Core
             parsedArticle.Content = $"<html><body><h1>{parsedArticle.Title}</h1><h3>{parsedArticle.DatePublished}</h3>{parsedArticle.Content}{interfaceLinksHtml}</body></html>";
         }
 
-        private Task<IEnumerable<PocketItem>> GetLastArticlesSinceLastProcessingDate(User user, int articlesAmount)
+        private async Task<IEnumerable<PocketItem>> GetLastArticlesSinceLastProcessingDate(User user, int articlesAmount)
         {
             _pocketClient.AccessCode = user.AccessCode;
 
             try
             {
-                return _pocketClient.Get(
+                return await _pocketClient.Get(
                     state: State.unread,
                     contentType: ContentType.article,
                     sort: Sort.newest,

@@ -1,4 +1,5 @@
 ﻿using Core.EmailSenders;
+using Microsoft.Extensions.Logging;
 using PocketSharp;
 using PocketSharp.Models;
 using System;
@@ -15,8 +16,9 @@ namespace Core
 
     public class ArticleSender : ISender
     {
-        private const int ArticlesAmount = 10;
+        private const int ARTICLES_TO_SEND_LIMIT = 10;
         private readonly IEmailSender _emailSender;
+        private readonly ILogger _logger;
         private readonly string _serviceDomain;
         private readonly IParser _parser;
         private readonly IPocketClient _pocketClient;
@@ -25,17 +27,19 @@ namespace Core
             IPocketClient pocketClient,
             IParser parser,
             IEmailSender emailSender,
+            ILogger logger,
             string serviceDomain)
         {
             _pocketClient = pocketClient;
             _parser = parser;
             _emailSender = emailSender;
+            _logger = logger;
             _serviceDomain = serviceDomain;
         }
 
         public async Task SendArticlesAsync(User user)
         {
-            var allArticles = (await GetLastArticlesSinceLastProcessingDate(user, ArticlesAmount))
+            var allArticles = (await GetLastArticlesSinceLastProcessingDate(user, ARTICLES_TO_SEND_LIMIT))
                                 .Where(x => !string.IsNullOrEmpty(x.Uri.ToString()));
 
             if (!allArticles.Any())
@@ -45,7 +49,16 @@ namespace Core
 
             foreach (var article in allArticles)
             {
-                var parsedArticle = await _parser.ParseAsync(article.Uri.ToString());
+                IArticle parsedArticle;
+                try
+                {
+                    parsedArticle = await _parser.ParseAsync(article.Uri.ToString());
+                }
+                catch
+                {
+                    _logger.LogError($"Failed to parse article: {article.Uri.ToString()}");
+                    continue;
+                }
 
                 if (parsedArticle != null)
                 {

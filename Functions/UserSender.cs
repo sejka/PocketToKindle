@@ -24,6 +24,7 @@ namespace Functions
                 new PocketClient(config.PocketConsumerKey, user.AccessCode),
                 new MercuryApiParser(config.MercuryParserApiEndpoint),
                 new MailgunSender(config.MailgunApiKey, config.MailgunHostEmail),
+                log,
                 config.ServiceDomain);
 
             await sender.SendArticlesAsync(user);

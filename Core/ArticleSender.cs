@@ -1,6 +1,7 @@
 ﻿using Core.EmailSenders;
 using PocketSharp;
 using PocketSharp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,12 +72,19 @@ namespace Core
         {
             _pocketClient.AccessCode = user.AccessCode;
 
-            return _pocketClient.Get(
-                state: State.unread,
-                contentType: ContentType.article,
-                sort: Sort.newest,
-                since: user.LastProcessingDate,
-                count: articlesAmount);
+            try
+            {
+                return _pocketClient.Get(
+                    state: State.unread,
+                    contentType: ContentType.article,
+                    sort: Sort.newest,
+                    since: user.LastProcessingDate,
+                    count: articlesAmount);
+            }
+            catch (Exception)
+            {
+                return default;
+            }
         }
     }
 }

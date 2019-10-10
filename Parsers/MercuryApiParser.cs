@@ -1,7 +1,6 @@
 ﻿using Core;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -19,7 +18,7 @@ namespace Parsers
 
         public async Task<IArticle> ParseAsync(string url)
         {
-            var result = await _httpClient.GetAsync(string.Concat(_apiEndpointUrl,url));
+            var result = await _httpClient.GetAsync(string.Concat(_apiEndpointUrl, url));
 
             if (result.IsSuccessStatusCode)
             {

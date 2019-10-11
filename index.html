@@ -111,8 +111,9 @@
         authorizeButton.onclick = authroizeOnPocket;
 
         if (getCookie("pocketkey")) {
-            submitButton.disabled = true;
-            authorizeCheckMark.hidden = false;
+            submitButton.disabled = false;
+            authorizeButton.disabled = true;
+            authorizeCheckMark.style.visibility = true;
         }
 
         function register() {
@@ -132,6 +133,7 @@
             xhReq.send(data);
             var serverResponse = xhReq.responseText;
             alert(serverResponse);
+            document.cookie = '';
         }
 
         async function authroizeOnPocket() {

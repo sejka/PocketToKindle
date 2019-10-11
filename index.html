@@ -4,7 +4,7 @@
     <title>Pocket to kindle</title>
     <meta charset="UTF-8">
     <style>
-        #authorize-checkmark {
+        .hidden {
             visibility: hidden;
         }
 
@@ -55,7 +55,7 @@
         <ol>
             <li>
                 First,
-                <button id="authorize-pocket-button">Authorize Pocket</button> <span id="authorize-checkmark">✅</span>
+                <button id="authorize-pocket-button">Authorize Pocket</button> <span id="authorize-checkmark" class="hidden">✅</span>
             </li>
             <li>
                 Next go to
@@ -113,10 +113,11 @@
         if (getCookie("pocketkey")) {
             submitButton.disabled = false;
             authorizeButton.disabled = true;
-            authorizeCheckMark.style.visibility = true;
+            authorizeCheckMark.classList.remove('hidden');
         }
 
         function register() {
+            submitButton.disabled = true;
             var xhReq = new XMLHttpRequest();
             xhReq.open("POST",
                 "https://pocket-to-kindle.azurewebsites.net/api/Register",
@@ -133,7 +134,7 @@
             xhReq.send(data);
             var serverResponse = xhReq.responseText;
             alert(serverResponse);
-            document.cookie = '';
+            eraseCookie('pocketkey');
         }
 
         async function authroizeOnPocket() {
@@ -143,6 +144,10 @@
             response = await response.json();
             document.cookie = `pocketkey=${response.RequestCode}`;
             window.location.href = response.RegistrationLink;
+        }
+
+        function eraseCookie(name) {
+            document.cookie = name + '=; Max-Age=0'
         }
 
         function getCookie(name) {

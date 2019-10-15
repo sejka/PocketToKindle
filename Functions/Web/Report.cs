@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Functions.Web
 {
-    public static class Report
+    public static partial class Report
     {
         [FunctionName("Report")]
         public static async Task<HttpResponseMessage> Run(
@@ -32,9 +32,9 @@ namespace Functions.Web
             await SaveReportedUrl(reportedUrlRow, config.StorageConnectionString);
             log.LogInformation($"Reported url: {reportedUrlRow.Url}");
 
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent($@"
-                <html>
+            return new HtmlResponseMessage(
+                HttpStatusCode.OK,
+                $@"<html>
                 <head>
                     <meta charset=""UTF-8"">
                     <title>Article reported</title>
@@ -44,7 +44,6 @@ namespace Functions.Web
                     <p>We'll investigate {reportedUrlRow.Url} soon.</p>
                 </body>
                 </html>");
-            return response;
         }
 
         private static async Task SaveReportedUrl(ReportedUrl reportedUrlRow, string storageConnectionString)

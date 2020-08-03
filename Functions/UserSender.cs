@@ -13,13 +13,16 @@ namespace Functions
     {
         [FunctionName("UserSender")]
         public static async Task Run(
-            [QueueTrigger("users-to-process", Connection = "")]string userJson,
+            [QueueTrigger("users-to-process", Connection = "")] string userJson,
             ILogger log,
             ExecutionContext executionContext)
         {
             var config = new ConfigBuilder(executionContext.FunctionAppDirectory).Build();
 
             var user = JsonConvert.DeserializeObject<User>(userJson);
+            var userService = UserService.BuildUserService(config.StorageConnectionString);
+            await userService.UpdateLastProcessingDateAsync(user);
+
             var sender = new ArticleSender(
                 new PocketClient(config.PocketConsumerKey, user.AccessCode),
                 new MercuryApiParser(config.MercuryParserApiEndpoint),
@@ -28,9 +31,6 @@ namespace Functions
                 config.ServiceDomain);
 
             await sender.SendArticlesAsync(user);
-
-            var userService = UserService.BuildUserService(config.StorageConnectionString);
-            await userService.UpdateLastProcessingDateAsync(user);
 
             log.LogInformation($"C# Queue trigger function processed: {userJson}");
         }

@@ -8,7 +8,7 @@ namespace Core
         public string StorageConnectionString { get; set; }
         public string PocketConsumerKey { get; set; }
         public string PocketRedirectUri { get; set; }
-        public string MailgunApiKey { get; set; }
+        public string SendgridApiKey { get; set; }
         public string MailgunHostEmail { get; set; }
         public string ServiceDomain { get; set; }
         public string MercuryParserApiEndpoint { get; set; }

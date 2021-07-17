@@ -75,6 +75,10 @@ namespace Core
             user.LastProcessingDate = DateTime.UtcNow;
             TableOperation updateOperation = TableOperation.Replace(user);
             var result = await _userTable.ExecuteAsync(updateOperation);
+
+            if (result.HttpStatusCode != 200)
+            {
+            }
         }
     }
 }

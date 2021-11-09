@@ -2,9 +2,9 @@ using Core;
 using Core.EmailSenders;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Parsers;
 using PocketSharp;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Functions
@@ -13,20 +13,20 @@ namespace Functions
     {
         [FunctionName("UserSender")]
         public static async Task Run(
-            [QueueTrigger("users-to-process", Connection = "")] string userJson,
-            ILogger log,
-            ExecutionContext executionContext)
+            [QueueTrigger("users-to-process")] string userJson,
+            ILogger log)
         {
-            var config = new ConfigBuilder(executionContext.FunctionAppDirectory).Build();
+            var config = new ConfigBuilder("").Build();
 
-            var user = JsonConvert.DeserializeObject<User>(userJson);
+            var user = JsonSerializer.Deserialize<User>(userJson);
             var userService = UserService.BuildUserService(config.StorageConnectionString);
             await userService.UpdateLastProcessingDateAsync(user);
 
             var sender = new ArticleSender(
                 new PocketClient(config.PocketConsumerKey, user.AccessCode),
                 new MercuryApiParser(config.MercuryParserApiEndpoint),
-                new MailgunSender(config.MailgunApiKey, config.MailgunHostEmail),
+                new SendgridSender(config.SendgridApiKey, config.MailgunHostEmail),
+                userService,
                 log,
                 config.ServiceDomain);
 

@@ -1,10 +1,9 @@
 using Core;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Net;
 using System.Net.Http;

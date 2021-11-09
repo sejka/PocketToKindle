@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Azure.WebJobs;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,9 +8,9 @@ namespace Core
     public class UserProcessor
     {
         private readonly IUserService _userService;
-        private readonly IQueue _usersQueue;
+        private readonly ICollector<User> _usersQueue;
 
-        public UserProcessor(IUserService userService, IQueue usersQueue)
+        public UserProcessor(IUserService userService, ICollector<User> usersQueue)
         {
             _userService = userService;
             _usersQueue = usersQueue;
@@ -17,28 +18,24 @@ namespace Core
 
         public async Task EnqueueAllUsersAsync()
         {
-            var processTasks = new List<Task>();
-
             do
             {
                 var userBatch = await _userService.GetUserBatch();
 
                 if (userBatch.Any())
                 {
-                    processTasks.Add(EnqueueBatchAsync(userBatch, _usersQueue));
+                    EnqueueBatchAsync(userBatch, _usersQueue);
                 }
+                userBatch = new LinkedList<User>();
             } while (_userService.GetContinuationToken() != null);
-
-            await Task.WhenAll(processTasks);
         }
 
-        private static async Task EnqueueBatchAsync(IEnumerable<User> users, IQueue queue)
+        private static void EnqueueBatchAsync(IEnumerable<User> users, ICollector<User> queue)
         {
-            var processorTasks = users
-                .AsParallel()
-                .Select(async user => await queue.QueueUserAsync(user));
-
-            await Task.WhenAll(processorTasks);
+            foreach (var user in users)
+            {
+                queue.Add(user);
+            }
         }
     }
 }

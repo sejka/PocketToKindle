@@ -29,9 +29,9 @@ namespace Core
             var config = new Config();
 
             var configRoot = configurationBuilder
-                .AddJsonFile(_jsonConfigPath)
+                .AddJsonFile(_jsonConfigPath, true)
                 .AddEnvironmentVariables()
-                .AddUserSecrets<Config>()
+                .AddUserSecrets<Config>(true)
                 .Build();
 
             configRoot.Bind(config);

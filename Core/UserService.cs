@@ -1,5 +1,4 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
+﻿using Microsoft.Azure.Cosmos.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +17,8 @@ namespace Core
         Task UpdateLastProcessingDateAsync(User user);
 
         Task<User> FindUserWithToken(string token);
+
+        Task RemoveUserAsync(User user);
     }
 
     //todo should i test this?
@@ -72,13 +73,30 @@ namespace Core
 
         public async Task UpdateLastProcessingDateAsync(User user)
         {
-            user.LastProcessingDate = DateTime.UtcNow;
-            TableOperation updateOperation = TableOperation.Replace(user);
-            var result = await _userTable.ExecuteAsync(updateOperation);
-
-            if (result.HttpStatusCode != 200)
+            try
             {
+                var query = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.RowKey);
+
+                TableQuery<User> retrieve = new TableQuery<User>().Where(query).Take(1);
+                var result = await _userTable.ExecuteQuerySegmentedAsync(retrieve, null);
+
+                var retrievedUser = result.Results.FirstOrDefault();
+
+                retrievedUser.LastProcessingDate = DateTime.UtcNow;
+
+                var update = TableOperation.InsertOrReplace(retrievedUser);
+                var saveResult = await _userTable.ExecuteAsync(update);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task RemoveUserAsync(User user)
+        {
+            TableOperation removeOperation = TableOperation.Delete(user);
+            var result = await _userTable.ExecuteAsync(removeOperation);
         }
     }
 }

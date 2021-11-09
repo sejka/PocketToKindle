@@ -68,7 +68,7 @@ namespace Parsers
             return srcsetValue.Substring(0, firstSpaceIndex);
         }
 
-        private async static Task<string> GetImageAsBase64Async(string url)
+        private static async Task<string> GetImageAsBase64Async(string url)
         {
             try
             {

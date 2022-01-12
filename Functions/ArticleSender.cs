@@ -55,7 +55,7 @@ namespace Core
                 //"A valid access token is required to access the requested API endpoint."
                 if (ex.PocketErrorCode == 107)
                 {
-                    await _userService.RemoveUserAsync(user);
+                    await _userService.RemoveUserAsync(user.RowKey);
                     _logger.LogError($"couldn't get user's data: {user.PocketUsername}, exception: {ex.Message}");
                 }
                 return;
@@ -75,7 +75,7 @@ namespace Core
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Failed to parse article: {article.Uri.ToString()}", ex);
+                    _logger.LogError($"Failed to parse article: {article.Uri}", ex);
                     continue;
                 }
 

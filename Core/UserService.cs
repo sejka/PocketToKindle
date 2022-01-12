@@ -18,7 +18,7 @@ namespace Core
 
         Task<User> FindUserWithToken(string token);
 
-        Task RemoveUserAsync(User user);
+        Task RemoveUserAsync(string username);
     }
 
     //todo should i test this?
@@ -36,6 +36,14 @@ namespace Core
         public async Task<User> FindUserWithToken(string token)
         {
             var query = new TableQuery<User>().Where(TableQuery.GenerateFilterCondition("Token", QueryComparisons.Equal, token));
+            var queryResult = await _userTable.ExecuteQuerySegmentedAsync(query, _continuationToken);
+
+            return queryResult.Results.FirstOrDefault();
+        }
+
+        private async Task<User> FindUser(string username)
+        {
+            var query = new TableQuery<User>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, username));
             var queryResult = await _userTable.ExecuteQuerySegmentedAsync(query, _continuationToken);
 
             return queryResult.Results.FirstOrDefault();
@@ -93,9 +101,10 @@ namespace Core
             }
         }
 
-        public async Task RemoveUserAsync(User user)
+        public async Task RemoveUserAsync(string username)
         {
-            TableOperation removeOperation = TableOperation.Delete(user);
+            var userToBeDeleted = await FindUser(username);
+            TableOperation removeOperation = TableOperation.Delete(userToBeDeleted);
             var result = await _userTable.ExecuteAsync(removeOperation);
         }
     }

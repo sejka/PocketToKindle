@@ -1,0 +1,35 @@
+.hidden {
+    visibility: hidden;
+}
+
+.wrapper {
+    font-family: Tahoma;
+    max-width: 50em;
+    margin: 0 auto;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 1em;
+}
+
+    .footer a {
+        color: grey;
+    }
+
+.input-container {
+    padding: 1em 1em 1em 0;
+    max-width: 20em;
+}
+
+input {
+    width: 100%;
+}
+
+button {
+    padding: 0.5em 2em;
+}
+
+li {
+    margin-bottom: 0.8em;
+}

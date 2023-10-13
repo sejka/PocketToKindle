@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="wrapper">
+        <h1>
+            Pocket to kindle
+        </h1>
+        <div>
+            Pocket to kindle sends your pocket articles to your kindle!
+        </div>
+        @RenderBody()
+        <div class="footer">
+            <a href="https://github.com/sejka/pockettokindle">Source code</a>
+            <a href="https://www.linkedin.com/in/sejka/">Karol Sejka</a>
+        </div>
+    </div>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

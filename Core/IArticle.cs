@@ -7,6 +7,5 @@ namespace Core
         string Content { get; set; }
         DateTime? DatePublished { get; set; }
         string Title { get; set; }
-        string Url { get; set; }
     }
 }

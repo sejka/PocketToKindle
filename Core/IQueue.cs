@@ -2,8 +2,8 @@
 
 namespace Core
 {
-    public interface IQueue
+    public interface IQueue<T>
     {
-        Task QueueUserAsync(User user);
+        Task QueueUserAsync(T user);
     }
 }

@@ -16,7 +16,7 @@ namespace Tests
                 Content = $"<img src=\"{SAMPLE_IMAGE_URL}\">asdasdasdasd<img src=\"{SAMPLE_IMAGE_URL}\">asdasdasdasd"
             };
 
-            await ImageInliner.InlineImagesAsync(sampleArticle);
+            await ImageInliner.InlineImagesAsync(sampleArticle, "https://upload.wikimedia.org/wikipedia");
 
             Assert.Equal($"<img src=\"data:image/jpeg;base64,{SAMPLE_IMAGE_AS_BASE64}\">asdasdasdasd<img src=\"data:image/jpeg;base64,{SAMPLE_IMAGE_AS_BASE64}\">asdasdasdasd", sampleArticle.Content);
         }
@@ -29,7 +29,7 @@ namespace Tests
                 Content = "asdasdasdasdasdasdasdasd"
             };
 
-            await ImageInliner.InlineImagesAsync(sampleArticle);
+            await ImageInliner.InlineImagesAsync(sampleArticle, SAMPLE_IMAGE_URL);
 
             Assert.Equal("asdasdasdasdasdasdasdasd", sampleArticle.Content);
         }
@@ -42,7 +42,7 @@ namespace Tests
                 Content = $"<img src=\"http://incorrect.url/image.gpj\">"
             };
 
-            await ImageInliner.InlineImagesAsync(sampleArticle);
+            await ImageInliner.InlineImagesAsync(sampleArticle, "http://incorrect.url/image.gpj");
 
             Assert.Equal(string.Empty, sampleArticle.Content);
         }

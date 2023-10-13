@@ -5,13 +5,12 @@ namespace Core
 {
     public class Config
     {
-        public string StorageConnectionString { get; set; }
         public string PocketConsumerKey { get; set; }
         public string PocketRedirectUri { get; set; }
-        public string SendgridApiKey { get; set; }
-        public string MailgunHostEmail { get; set; }
+        public string EmailSenderApiKey { get; set; }
+        public string HostEmail { get; set; }
         public string ServiceDomain { get; set; }
-        public string MercuryParserApiEndpoint { get; set; }
+        public string ParsersApiEndpoint { get; set; }
     }
 
     public class ConfigBuilder
@@ -20,7 +19,7 @@ namespace Core
 
         public ConfigBuilder(string functionAppDirectory)
         {
-            _jsonConfigPath = Path.Combine(functionAppDirectory, "config.json");
+            _jsonConfigPath = Path.Combine(functionAppDirectory, "appsettings.json");
         }
 
         public Config Build()

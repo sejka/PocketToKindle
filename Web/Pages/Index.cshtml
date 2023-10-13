@@ -1,0 +1,52 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Pocket to kindle";
+}
+    <h2>Register</h2>
+    <ol>
+        <li>
+            First,
+            <button id="authorize-pocket-button">Authorize Pocket</button> <span id="authorize-checkmark" class="hidden">✅</span>
+        </li>
+        <li>
+            Next go to
+            <a href="https://www.amazon.com/hz/mycd/myx#/home/settings/payment">Kindle email allowed senders</a> under "Personal Document Settings" and <b>add "kindle@mail.p2k.sejka.pl"</b> as approved
+            email.
+        </li>
+        <li>
+            You might also want to disable "Personal Document Archiving", otherwise it will preserve articles sent to you in your library after you delete them from kindle.
+        </li>
+        <li>
+            Finally, find your kindle email in "Your Devices" tab and share it below:
+            <br />
+            <div class="input-container">
+                <input id="email-input" type="email">
+            </div>
+            <button id="submit-button" disabled>Submit</button>
+        </li>
+        <li>
+            That's it! If everything went fine you should receive an welcoming email on your kindle. Next time you add something to your
+            pocket it should arrive within 15 minutes on your kindle. Enjoy!
+        </li>
+    </ol>
+    <div>
+        <h2>
+            Privacy
+        </h2>
+        We do not store or log anything you read. Only things stored about the user are:
+        <ul>
+            <li>Pocket username</li>
+            <li>Kindle email</li>
+            <li>Last internal processing date (usually updates every 15 minutes)</li>
+            <li>Internal user token (for archive/star functionalities at the end of every article)</li>
+            <li>Pocket developer api access code</li>
+        </ul>
+        as you can see <a href="https://github.com/sejka/PocketToKindle/blob/master/Web/Database/User.cs">here in the source code</a>.<br />
+        <div>
+            That's why it might be problematic to debug any parsing/email sending issues with particular articles. I encourage to use Report link at the end of every article if there's something wrong or filing an issue in <a href="https://github.com/sejka/PocketToKindle/issues">github repo</a>.
+        </div>
+        <div>
+            However, our email provider - Brevo, logs email titles. Email titles are equal to your pocket article titles so that kindle device can view article title properly. I'd like to switch to more private solution but I'm afraid I'll need help with setting it up.
+        </div>
+    </div>

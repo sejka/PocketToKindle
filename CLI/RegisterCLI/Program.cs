@@ -3,6 +3,7 @@ using PocketSharp;
 using PocketSharp.Models;
 using System;
 using System.Threading.Tasks;
+using Web.Database;
 
 namespace RegisterCLI
 {
@@ -21,7 +22,7 @@ namespace RegisterCLI
             Console.ReadLine();
             PocketUser pocketUser = await _client.GetUser(requestCode);
 
-            IUserService userService = UserService.BuildUserService(_config.StorageConnectionString);
+            var userService = new UserService()
 
             Console.WriteLine("Input your kindle email:");
             var kindleEmail = Console.ReadLine();

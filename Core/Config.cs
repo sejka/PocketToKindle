@@ -11,7 +11,6 @@ namespace Core
         public string HostEmail { get; set; }
         public string ServiceDomain { get; set; }
         public string ParsersApiEndpoint { get; set; }
-        public string whatever { get; set; }
     }
 
     public class ConfigBuilder

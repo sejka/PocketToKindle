@@ -4,10 +4,6 @@
     <title>Pocket to kindle</title>
     <meta charset="UTF-8">
     <style>
-        .hidden {
-            visibility: hidden;
-        }
-
         .wrapper {
             font-family: Tahoma;
             max-width: 50em;
@@ -22,15 +18,6 @@
             .footer a {
                 color: grey;
             }
-
-        .input-container {
-            padding: 1em 1em 1em 0;
-            max-width: 20em;
-        }
-
-        input {
-            width: 100%;
-        }
 
         button {
             padding: 0.5em 2em;
@@ -51,110 +38,14 @@
             Pocket to kindle sends your pocket articles to your kindle!
         </div>
 
-        <h2>Register</h2>
-        <ol>
-            <li>
-                First,
-                <button id="authorize-pocket-button">Authorize Pocket</button> <span id="authorize-checkmark" class="hidden">✅</span>
-            </li>
-            <li>
-                Next go to
-                <a href="https://www.amazon.com/hz/mycd/myx#/home/settings/payment">Kindle email allowed senders</a> under "Personal Document Settings" and <b>add "kindle@mail.p2k.sejka.pl"</b> as approved
-                email.
-            </li>
-            <li>
-                You might also want to disable "Personal Document Archiving", otherwise it will preserve articles sent to you in your library after you delete them from kindle.
-            </li>
-            <li>
-                Finally, find your kindle email in "Your Devices" tab and share it below:
-                <br />
-                <div class="input-container">
-                    <input id="email-input" type="email">
-                </div>
-                <button id="submit-button" disabled>Submit</button>
-            </li>
-            <li>
-                That's it! If everything went fine you should receive an welcoming email on your kindle. Next time you add something to your
-                pocket it should arrive within 15 minutes on your kindle. Enjoy!
-            </li>
-        </ol>
-        <div>
-            <h2>
-                Privacy
-            </h2>
-            We do not store or log anything you read. Only things stored about the user are:
-            <ul>
-                <li>Pocket username</li>
-                <li>Kindle email</li>
-                <li>Last internal processing date (usually updates every 15 minutes)</li>
-                <li>Internal user token (for archive/star functionalities at the end of every article)</li>
-                <li>Pocket developer api access code</li>
-            </ul>
-            as you can see <a href="https://github.com/sejka/PocketToKindle/blob/master/Core/User.cs">here in the source code</a>.<br />
-            <div>
-                That's why it might be problematic to debug any parsing/email sending issues with particular articles. I encourage to use Report link at the end of every article if there's something wrong or filing an issue in <a href="https://github.com/sejka/PocketToKindle/issues">github repo</a>.
-            </div>
-            <div>
-                However, our email provider - Mailgun, logs email titles. Email titles are equal to your pocket article titles so that kindle device can view article title properly. I'd like to switch to more private solution but I'm afraid I'll need help with setting it up.
-            </div>
-        </div>
+        <h2>Pocket closes down...</h2>
+        You might've noticed that the Pocket service is closing down on June 30th, 2024. This means that Pocket to Kindle will stop working as well. After 7 years of service, this side project is shutting down aswell. If you're looking for an alternative, I recommend checking out this article: <a href="https://techcrunch.com/2025/05/27/read-it-later-app-pocket-is-shutting-down-here-are-the-best-alternatives/">https://techcrunch.com/2025/05/27/read-it-later-app-pocket-is-shutting-down-here-are-the-best-alternatives/</a>
+        <h3>What's next?</h3>
+        I'm looking for an alternative that will be both popular enough and allow for a fairly seamless integration. We'll see how it goes. If you have any suggestions please contact me via the links below:
         <div class="footer">
-            <a href="https://github.com/sejka/pockettokindle">Source code</a>
-            <a href="https://twitter.com/karolsejka">Karol Sejka</a>
+            <a href="https://github.com/sejka/pockettokindle">PocketToKindle source code on github</a><br>
+            <a href="https://twitter.com/karolsejka">Twitter Karol Sejka</a>
         </div>
     </div>
-    <script type="text/javascript">
-        var authorizeButton = document.getElementById('authorize-pocket-button');
-        var authorizeCheckMark = document.getElementById('authorize-checkmark');
-        var submitButton = document.getElementById('submit-button');
-        submitButton.onclick = register;
-        authorizeButton.onclick = authroizeOnPocket;
-
-        if (getCookie("pocketkey")) {
-            submitButton.disabled = false;
-            authorizeButton.disabled = true;
-            authorizeCheckMark.classList.remove('hidden');
-        }
-
-        function register() {
-            submitButton.disabled = true;
-            var xhReq = new XMLHttpRequest();
-            xhReq.open("POST",
-                "https://pocket-to-kindle.azurewebsites.net/api/Register",
-                false);
-            xhReq.setRequestHeader("Content-Type", "application/json");
-
-            var kindleEmail = document.getElementById('email-input').value.trim();
-            var requestCode = getCookie("pocketkey");
-
-            var data = JSON.stringify({
-                "kindleEmail": kindleEmail,
-                "requestCode": requestCode
-            });
-            xhReq.send(data);
-            var serverResponse = xhReq.responseText;
-            alert(serverResponse);
-            eraseCookie('pocketkey');
-        }
-
-        async function authroizeOnPocket() {
-            authorizeButton.disabled = true;
-            url = "https://pocket-to-kindle.azurewebsites.net/api/GetRegistrationInfo";
-            let response = await fetch(url);
-            response = await response.json();
-            document.cookie = `pocketkey=${response.RequestCode}`;
-            window.location.href = response.RegistrationLink;
-        }
-
-        function eraseCookie(name) {
-            document.cookie = name + '=; Max-Age=0'
-        }
-
-        function getCookie(name) {
-            var value = "; " + document.cookie;
-            var parts = value.split("; " + name + "=");
-            if (parts.length == 2) return parts.pop().split(";").shift();
-        };
-    </script>
 </body>
 </html>
